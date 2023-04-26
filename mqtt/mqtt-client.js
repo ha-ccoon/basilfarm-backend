@@ -1,8 +1,13 @@
 import * as mqtt from 'mqtt';
 
-const client = mqtt.connect('mqtt://test.mosquitto.org');
-// console.log('Is MQTT connected?: ' + client.connected);
+const client = mqtt.connect({
+  host: '3.34.199.220',
+  port: 1883,
+  username: 'yoon',
+  password: 'helloElice',
+});
 
+// client connection
 client.on('connect', function () {
   console.log('Is MQTT connected?: ' + client.connected);
 });
@@ -14,20 +19,16 @@ client.on('message', function (topic, message) {
 
 // publish
 function publish(topic, message) {
-  console.log('publishing: ', message);
   if (client.connected == true) {
-    client.publish(topic, message);
+    client.publish(topic, message, { qos: 2 });
   }
 }
 
-// subscribe
-
+// subscribe example
 setInterval(() => {
-  if (client.connected === true) {
-    client.publish('test', 'test message');
-  }
+  client.publish('test1', 'server: ');
 }, 2000);
-client.subscribe('test');
+client.subscribe('test1');
 
 // connection error
 client.on('error', function (err) {
