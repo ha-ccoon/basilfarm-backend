@@ -1,37 +1,47 @@
 import * as mqtt from 'mqtt';
 
-// const client = mqtt.connect({
-//   host: '3.34.199.220',
-//   port: 1883,
-//   username: 'yoon',
-//   password: 'helloElice',
-// });
+class MqttClient {
+  #options;
+  #client;
+  #topics;
 
-// client connection
-client.on('connect', function () {
-  console.log('Is MQTT connected?: ' + client.connected);
-});
+  constructor(options, topics) {
+    this.#options = options;
+    this.#topics = topics;
+  }
 
-// handle incoming messages
-client.on('message', function (topic, message) {
-  console.log(`topic: ${topic.toString()}, message: ${message.toString()}`);
-});
+  connect() {
+    const self = this;
+    self.#client = mqtt.connect(self.#options);
 
-// publish (device => server)
-function publish(topic, message) {
-  if (client.connected == true) {
-    client.publish(topic, message, { qos: 2 });
+    // 연결 이벤트 콜백
+    self.#client.on('connect', () => {
+      console.log('## MQTT is connected');
+
+      // set subscribe
+      self.#client.subscribe(self.#topics, (err) => {
+        if (!err) {
+          console.log(`## start to subscribe ${self.#topics}`);
+        } else {
+          console.log(err);
+        }
+      });
+    });
+    // error handling
+    self.#client.on('err', (err) => {
+      console.log(err);
+    });
+  }
+
+  // MQTT 메시지 발행
+  sendCommand(topic, message) {
+    this.#client.publish(topic, JSON.stringify(message));
+  }
+
+  // 메시지 이벤트 콜백 설정
+  setMessageCallback(callback) {
+    this.#client.on('message', callback);
   }
 }
 
-// subscribe (server => device)
-setInterval(() => {
-  client.publish('test1', 'turn on the pump');
-}, 2000);
-client.subscribe('test1');
-
-// connection error
-client.on('error', function (err) {
-  console.log(err);
-  process.exit(1);
-});
+export default MqttClient;
