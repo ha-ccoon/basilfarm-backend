@@ -1,7 +1,8 @@
 import express from 'express';
+import mysql from 'mysql2';
 import dotenv from 'dotenv';
 import apiRouter from './routes/index.js';
-import connection from './config/db.js';
+// import connection from './config/db.js';
 
 const app = express();
 dotenv.config();
@@ -23,10 +24,17 @@ app.listen(port, () => {
 
 
 // MySQL connection 실행
-connection.connect();
-
-connection.connect(function (err) {
-  if (err) throw err;
-  console.log(`🟢 basilFarmDB에 정상적으로 연결되었습니다.`);
+const connection = mysql.createConnection({
+  host: process.env.MYSQL_HOST,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
+  port: process.env.MYSQL_PORT,
 });
 
+//커넥션 확인용 임시로 작성한 부분입니다
+connection.query('select * from `user`', function(err, result, field) {
+  // console.log(err);
+  // console.log(result);
+  console.log(field);
+});
