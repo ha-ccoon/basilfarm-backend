@@ -52,7 +52,7 @@ mqttClient.setMessageCallback(async (topic, message) => {
           humidity: messageJson.humidity,
           light: messageJson.light,
           moisture: messageJson.moisture,
-          created_at: new Date(messageJson.timestamp),
+          created_at: messageJson.created_at,
         });
         break;
       default:
@@ -79,3 +79,4 @@ const db = new DB({
 //   console.log(result);
 //   console.log(field);
 // });
+
