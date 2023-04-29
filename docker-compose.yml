@@ -1,0 +1,25 @@
+version: '3.6'
+
+services:
+  web: 
+    platform: linux/amd64
+    image: 'gitlab/gitlab-ce:latest'
+    restart: always
+    hostname: 'gitlab.example.com'
+    container_name: gitlab
+    environment:
+      # 외부 접속
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://gitlab.example.com'
+        gitlab_rails['gitlab_shell_ssh_port'] = 5002
+        # Add any other gitlab.rb configuration here, each on its own line
+    ports:
+      - '8000:80' #http
+      - '5000:443' #https
+      - '5002:22' #ssh
+    volumes:
+      - '$HOME/config:/etc/gitlab'
+      - '$HOME/logs:/var/log/gitlab'
+      - '$HOME/data:/var/opt/gitlab'
+      - '$HOME/data:/var/opt/gitlab/backups'
+    shm_size: '256m'

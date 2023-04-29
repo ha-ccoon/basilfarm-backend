@@ -3,8 +3,8 @@ import mysql from 'mysql2';
 import dotenv from 'dotenv';
 import apiRouter from './src/routes/index.js';
 // import connection from './config/db.js';
-import MqttClient from './mqtt/mqtt-client.js';
-import DB from './db/db.js';
+import MqttClient from './src/mqtt/mqtt-client.js';
+import DB from './src/db/db.js';
 
 const app = express();
 dotenv.config();
