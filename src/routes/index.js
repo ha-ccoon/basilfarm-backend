@@ -7,4 +7,5 @@ const router = express.Router();
 router.use("/actuator", actuatorRouter);
 router.use("/sensor", sensorRouter);
 
+
 export default router;
