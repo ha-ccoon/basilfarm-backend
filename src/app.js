@@ -1,17 +1,15 @@
 import express from 'express';
 import mysql from 'mysql2';
 import dotenv from 'dotenv';
-import apiRouter from './src/routes/index.js';
-// import connection from './config/db.js';
-import MqttClient from './src/mqtt/mqtt-client.js';
-import DB from './src/db/db.js';
+import apiRouter from './routes/index.js';
+import MqttClient from './clients/mqtt-client.js';
+import DB from './clients/db.js';
 
-const app = express();
 dotenv.config();
 
+const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
 app.use('/api', apiRouter);
 
 // 정적 경로 설정
@@ -65,13 +63,17 @@ mqttClient.setMessageCallback(async (topic, message) => {
 });
 
 // MySQL connection 실행
-const db = new DB({
-  host: process.env.MYSQL_HOST,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
-  port: process.env.MYSQL_PORT,
-});
+function getDBConnection() {
+  const db = new DB({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
+    port: process.env.MYSQL_PORT,
+  });
+  return db;
+}
+const db = getDBConnection();
 
 //커넥션 확인용 임시로 작성한 부분입니다
 // connection.query('select * from `user`', function (err, result, field) {
