@@ -1,47 +1,72 @@
 import * as mqtt from 'mqtt';
+import dotenv from 'dotenv';
 
-class MqttClient {
-  #options;
-  #client;
-  #topics;
+dotenv.config();
 
+class mqttSetup {
   constructor(options, topics) {
-    this.#options = options;
-    this.#topics = topics;
+    this._options = options;
+    this._topics = topics;
   }
 
+  // 함수가 여기 다들어가는게 맞는가에 대해 생각해보기
   connect() {
-    const self = this;
-    self.#client = mqtt.connect(self.#options);
+    this._client = mqtt.connect(this._options);
 
     // 연결 이벤트 콜백
-    self.#client.on('connect', () => {
+    this._client.on('connect', () => {
       console.log('## MQTT is connected');
 
       // set subscribe
-      self.#client.subscribe(self.#topics, (err) => {
+      this._client.subscribe(this._topics, (err) => {
         if (!err) {
-          console.log(`## start to subscribe ${self.#topics}`);
+          console.log(`## start to subscribe ${this._topics}`);
         } else {
           console.log(err);
         }
       });
     });
     // error handling
-    self.#client.on('err', (err) => {
+    this._client.on('err', (err) => {
       console.log(err);
     });
   }
 
-  // MQTT 메시지 발행
+  // 서버 => 디바이스 (error handling 생각해보기)
   sendCommand(topic, message) {
-    this.#client.publish(topic, JSON.stringify(message));
+    this._client.publish(topic, JSON.stringify(message));
   }
 
-  // 메시지 이벤트 콜백 설정
+  // 디바이스 => 데이터베이스
   setMessageCallback(callback) {
-    this.#client.on('message', callback);
+    this._client.on('message', async (topic, message) => {
+      console.log(topic, message.toString());
+      // 토픽 인식하기
+      const topicType = topic.split('/')[TOPIC_TYPE_INDEX];
+      const messageJson = JSON.parse(message);
+
+      try {
+        switch (topicType) {
+          case 'data':
+            db.insertData({
+              idx: messageJson.idx,
+              device_id: messageJson.device_id,
+              temp: messageJson.temp,
+              humidity: messageJson.humidity,
+              light: messageJson.light,
+              moisture: messageJson.moisture,
+              created_at: messageJson.created_at,
+            });
+            break;
+          default:
+            console.log("This topic isn't assigned");
+            break;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    });
   }
 }
 
-export default MqttClient;
+export default mqttSetup;
