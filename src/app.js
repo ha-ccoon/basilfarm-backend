@@ -1,9 +1,8 @@
 import express from 'express';
-import mysql from 'mysql2';
 import dotenv from 'dotenv';
 import apiRouter from './routes/index.js';
-import MqttClient from './clients/mqtt-client.js';
 import DB from './clients/db.js';
+import mqttSetup from './clients/mqtt-client.js';
 
 dotenv.config();
 
@@ -23,7 +22,7 @@ app.listen(port, () => {
 });
 
 // MQTT connection
-const TOPIC_TYPE_INDEX = 0;
+
 const mqttOptions = {
   host: process.env.MQTT_HOST,
   port: process.env.MQTT_PORT,
@@ -31,36 +30,8 @@ const mqttOptions = {
   password: process.env.MQTT_PASSWORD,
 };
 
-const mqttClient = new MqttClient(mqttOptions, ['data/unit001/#']);
+const mqttClient = new mqttSetup(mqttOptions, ['data/unit001/#']);
 mqttClient.connect();
-
-mqttClient.setMessageCallback(async (topic, message) => {
-  console.log(topic, message.toString());
-  // 토픽 인식하기
-  const topicType = topic.split('/')[TOPIC_TYPE_INDEX];
-  const messageJson = JSON.parse(message);
-
-  try {
-    switch (topicType) {
-      case 'data':
-        db.insertData({
-          idx: messageJson.idx,
-          device_id: messageJson.device_id,
-          temp: messageJson.temp,
-          humidity: messageJson.humidity,
-          light: messageJson.light,
-          moisture: messageJson.moisture,
-          created_at: messageJson.created_at,
-        });
-        break;
-      default:
-        console.log("This topic isn't assigned");
-        break;
-    }
-  } catch (err) {
-    console.log(err);
-  }
-});
 
 // MySQL connection 실행
 function getDBConnection() {
@@ -73,12 +44,4 @@ function getDBConnection() {
   });
   return db;
 }
-const db = getDBConnection();
-
-//커넥션 확인용 임시로 작성한 부분입니다
-// connection.query('select * from `user`', function (err, result, field) {
-//   console.log(err);
-//   console.log(result);
-//   console.log(field);
-// });
-
+getDBConnection();
