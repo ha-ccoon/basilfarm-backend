@@ -1,8 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import apiRouter from './routes/index.js';
-import mqttSetup from './clients/mqtt-client.js';
-import DB from './clients/db.js';
+import DB from './mqtt-client/db.js';
+import MqttSetup from './mqtt-client/mqtt-client.js';
+import messageCallback from './mqtt-client/mqtt-controller.js';
 
 dotenv.config();
 
@@ -29,8 +30,10 @@ const mqttOptions = {
   password: process.env.MQTT_PASSWORD,
 };
 
-const mqttClient = new mqttSetup(mqttOptions, ['data/unit001/#']);
+const mqttClient = new MqttSetup(mqttOptions, ['data/unit002/#']);
 mqttClient.connect();
+mqttClient.subscribe();
+mqttClient.receiveMessage(messageCallback);
 
 // MySQL connection 실행
 function getDBConnection() {
