@@ -6,7 +6,7 @@ import realtimeRouter from "./realtimeRouter.js";
 const router = express.Router();
 
 router.use("/realtime", realtimeRouter);
-// router.use("/sensors", sensorRouter);
+router.use("/sensors", sensorRouter);
 router.use("/actuators", actuatorRouter);
 router.use("/actuators/pump", actuatorRouter);
 router.use("/actuators/led", actuatorRouter);
