@@ -1,15 +1,22 @@
-import { getDBConnection } from '../app.js';
+import connection from '../dbconfig.js';
 
-function getSensorhistory(req, res, next) {
-    const db = getDBConnection();
-    db.query(`SELECT * FROM sensor_History`, (error, results)=> {
-        if (error) {
-            console.log(error);
-            res.status(500).json({ error: 'Internal server error '});
-        } else {
-            res.status(200).json(results);
-        }
-    });
-}
+export const getSensorData = async (req, res) => {
+    try {
+      const [rows] = await connection.execute('SELECT * FROM sensor_history');
+      res.json(rows);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    }
+  };
 
-export { getSensorhistory };
+export const getSensorDataByDeviceId = async (req, res) => {
+  const { device_id } = req.params;
+  try {
+    const [rows] = await connection.execute('SELECT * FROM sensor_history WHERE device_id = ?', [device_id]);
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+};

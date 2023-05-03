@@ -1,9 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import apiRouter from './routes/index.js';
-import DB from './clients/db.js';
 import mqttSetup from './clients/mqtt-client.js';
-import mysql from 'mysql2';
+import DB from './clients/db.js';
 
 dotenv.config();
 
@@ -23,7 +22,6 @@ app.listen(port, () => {
 });
 
 // MQTT connection
-
 const mqttOptions = {
   host: process.env.MQTT_HOST,
   port: process.env.MQTT_PORT,
@@ -35,18 +33,14 @@ const mqttClient = new mqttSetup(mqttOptions, ['data/unit001/#']);
 mqttClient.connect();
 
 // MySQL connection 실행
-// function getDBConnection() {
-//   const db = new DB({
-//     host: process.env.MYSQL_HOST,
-//     user: process.env.MYSQL_USER,
-//     password: process.env.MYSQL_PASSWORD,
-//     database: process.env.MYSQL_DATABASE,
-//     port: process.env.MYSQL_PORT,
-//   });
-//   return db;
-// }
-// getDBConnection();
-
-connection.connect();
-
-// export { getDBConnection };
+function getDBConnection() {
+  const db = new DB({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
+    port: process.env.MYSQL_PORT,
+  });
+  return db;
+}
+getDBConnection();
