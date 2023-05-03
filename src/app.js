@@ -49,3 +49,5 @@ function getDBConnection() {
   return db;
 }
 getDBConnection();
+
+export default getDBConnection;
