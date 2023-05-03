@@ -4,6 +4,7 @@ import apiRouter from './routes/index.js';
 import DB from './mqtt-client/db.js';
 import MqttSetup from './mqtt-client/mqtt-client.js';
 import messageCallback from './mqtt-client/mqtt-controller.js';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/api', apiRouter);
+app.use(cors());
 
 // 정적 경로 설정
 app.use('/static', express.static('uploads'));
