@@ -24,10 +24,6 @@ app.listen(port, () => {
   console.log(`🚀 서버가 포트 ${port}에서 운영중입니다.`);
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
 // MQTT connection
 const mqttOptions = {
   host: process.env.MQTT_HOST,
