@@ -1,4 +1,6 @@
-import db from "../dbconfig.js";
+import DB from "../dbconfig.js";
+
+const db = new DB();
 
 export const getSensorData = async (req, res) => {
   try {

@@ -1,4 +1,6 @@
-import db from "../dbconfig.js";
+import DB from "../dbconfig.js";
+
+const db = new DB();
 
 export const getActuatorData = async (req, res) => {
   try {
@@ -27,11 +29,13 @@ export const getActuatorDataByDeviceId = async (req, res) => {
 export const postPumpData = async (req, res) => {
   const { device_id } = req.params;
   const { pump } = req.body;
+  const created_at = new Date();
   try {
     const [rows] = await db.pool.query(
       "INSERT INTO actuator_config (device_id, pump, created_at) VALUES (?, ?, ?)",
       [device_id, pump, created_at]
     );
+    res.json(rows);
   } catch (err) {
     console.error(err);
     res.status(500).send("Internal Server Error");
@@ -40,6 +44,8 @@ export const postPumpData = async (req, res) => {
 
 export const postLedData = async (req, res) => {
   const { device_id } = req.params;
+  const { led } = req.body;
+  const created_at = new Date();
   try {
     const [rows] = await db.pool.query(
       "INSERT INTO actuator_config (device_id, led, created_at) VALUES (?, ?, ?)",
@@ -54,6 +60,8 @@ export const postLedData = async (req, res) => {
 
 export const postFanData = async (req, res) => {
   const { device_id } = req.params;
+  const { fan } = req.body;
+  const created_at = new Date();
   try {
     const [rows] = await db.pool.query(
       "INSERT INTO actuator_config (device_id, fan, created_at) VALUES (?, ?, ?)",
