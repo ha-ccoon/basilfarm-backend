@@ -12,5 +12,4 @@ router.use("/actuators/pump", actuatorRouter);
 router.use("/actuators/led", actuatorRouter);
 router.use("/actuators/fan", actuatorRouter);
 
-
 export default router;
