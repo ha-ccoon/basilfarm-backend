@@ -44,4 +44,15 @@ const database = new DB({
   port: process.env.MYSQL_PORT,
 });
 
-export default database;
+// MySQL connection 실행
+function getDBConnection() {
+  const db = new DB({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
+    port: process.env.MYSQL_PORT,
+  });
+  return db;
+}
+getDBConnection();

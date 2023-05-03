@@ -17,21 +17,22 @@ class DB {
     temp,
     humidity,
     light,
+    water_level,
     moisture,
     created_at,
   }) {
     const sql = `INSERT INTO sensor_history 
-    (idx, device_id, temp, humidity, light, moisture, created_at) values (?,?,?,?,?,?,?)`;
+    (idx, device_id, temp, humidity, light, water_level, moisture, created_at) values (?,?,?,?,?,?,?)`;
     const rows = await this.pool.query(sql, [
       idx,
       device_id,
       temp,
       humidity,
       light,
+      water_level,
       moisture,
       created_at,
     ]);
-
     return rows;
   }
 }
