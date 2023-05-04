@@ -1,4 +1,4 @@
-import database from '../app.js';
+import getDBConnection from '../app.js';
 
 const messageCallback = async (topic, message) => {
   console.log(topic, message.toString());
@@ -9,12 +9,14 @@ const messageCallback = async (topic, message) => {
   try {
     switch (topicType) {
       case 'data':
-        database.insertData({
+        const db = getDBConnection();
+        await db.insertData({
           idx: messageJson.idx,
           device_id: messageJson.device_id,
           temp: messageJson.temp,
           humidity: messageJson.humidity,
           light: messageJson.light,
+          water_level:messageJson.water_level,
           moisture: messageJson.moisture,
           created_at: messageJson.created_at,
         });
