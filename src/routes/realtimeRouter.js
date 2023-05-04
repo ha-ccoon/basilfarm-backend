@@ -1,10 +1,7 @@
-import express from "express";
+import express from 'express';
+import { getRealtimeDataByDeviceId } from '../controller/realtimeController.js';
 
-const realtimeRouter = express.Router();
+const RealtimeRouter = express.Router();
+RealtimeRouter.get('/:device_id', getRealtimeDataByDeviceId);
 
-realtimeRouter.get("/", (req, res) => {
-  res.json({message: "Realtime data!"});
-  console.log("Realtime 로드");
-});
-
-export default realtimeRouter;
+export default RealtimeRouter;
