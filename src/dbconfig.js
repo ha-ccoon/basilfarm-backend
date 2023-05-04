@@ -26,9 +26,15 @@ export default class DB {
     moisture,
     created_at,
   }) {
-    const sql = `INSERT INTO sensor_history 
+    const sensorsql = `INSERT INTO sensor_history 
     (idx, device_id, temp, humidity, light, water_level, moisture, created_at) values (?,?,?,?,?,?,?,?)`;
-    const rows = await this.pool.query(sql, [
+    const realtimesql = `INSERT INTO realtime 
+    (device_id, temp, humidity, light, water_level, moisture, created_at) 
+    values (?,?,?,?,?,?,?) 
+    ON DUPLICATE KEY UPDATE 
+    temp=VALUES(temp), humidity=VALUES(humidity), light=VALUES(light), 
+    water_level=VALUES(water_level), moisture=VALUES(moisture), created_at=VALUES(created_at)`;
+    const rows = await this.pool.query(sensorsql, [
       idx,
       device_id,
       temp,
@@ -38,6 +44,15 @@ export default class DB {
       moisture,
       created_at,
     ]);
-    return rows;
+    const rows2 = await this.pool.query(realtimesql, [
+      device_id,
+      temp,
+      humidity,
+      light,
+      water_level,
+      moisture,
+      created_at,
+    ]);
+    return { rows, rows2 };
   }
 }
