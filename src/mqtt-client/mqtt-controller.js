@@ -16,6 +16,7 @@ const messageCallback = async (topic, message) => {
           temp: messageJson.temp,
           humidity: messageJson.humidity,
           light: messageJson.light,
+          water_level:messageJson.water_level,
           moisture: messageJson.moisture,
           created_at: messageJson.created_at,
         });
