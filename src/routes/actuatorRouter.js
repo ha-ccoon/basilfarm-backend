@@ -7,6 +7,7 @@ import {
   postFanData
 } from '../controller/actuatorController.js';
 
+
 const actuatorRouter = express.Router();
 
 actuatorRouter.get('/', getActuatorData);
