@@ -1,5 +1,5 @@
-import mysql from "mysql2/promise";
-import dotenv from "dotenv";
+import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -54,5 +54,11 @@ export default class DB {
       created_at,
     ]);
     return { rows, rows2 };
+  }
+
+  async getOneDevice(device_id) {
+    const sql = `SELECT * FROM device where device_id=?;`;
+    const rows = await this.pool.query(sql, [device_id, id]);
+    return rows;
   }
 }

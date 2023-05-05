@@ -1,28 +1,28 @@
-import express from "express";
-import dotenv from "dotenv";
-import apiRouter from "./routes/index.js";
-import DB from "./dbconfig.js";
-import MqttSetup from "./mqtt-client/mqtt-client.js";
-import messageCallback from "./mqtt-client/mqtt-controller.js";
-import cors from "cors";
+import express from 'express';
+import dotenv from 'dotenv';
+import apiRouter from './routes/index.js';
+import DB from './dbconfig.js';
+import MqttSetup from './mqtt-client/mqtt-client.js';
+import messageCallback from './mqtt-client/mqtt-controller.js';
+import cors from 'cors';
 
 dotenv.config();
 
 const app = express();
 const corsOptions = {
-  origin: '*'
+  origin: '*',
 };
 
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: false }));
-app.use("/api", apiRouter);
+app.use('/api', apiRouter);
 
 // 정적 경로 설정
-app.use("/static", express.static("uploads"));
+app.use('/static', express.static('uploads'));
 
 // 포트 연결
-const port = parseInt(process.env.PORT ?? "8080");
+const port = parseInt(process.env.PORT ?? '8080');
 
 app.listen(port, () => {
   console.log(`🚀 서버가 포트 ${port}에서 운영중입니다.`);
@@ -36,7 +36,7 @@ const mqttOptions = {
   password: process.env.MQTT_PASSWORD,
 };
 
-const mqttClient = new MqttSetup(mqttOptions, ["data/unit002/#"]);
+const mqttClient = new MqttSetup(mqttOptions, ['data/unit002/#']);
 mqttClient.connect();
 mqttClient.subscribe();
 mqttClient.receiveMessage(messageCallback);
@@ -47,4 +47,4 @@ function getDBConnection() {
   return db;
 }
 
-export default getDBConnection;
+export default { getDBConnection, mqttClient };
