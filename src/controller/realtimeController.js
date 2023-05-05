@@ -3,15 +3,12 @@ import DB from "../dbconfig.js";
 const db = new DB();
 
   export const getRealtimeDataByDeviceId = async (req, res) => {
-    const { device_id } = req.params;
     try {
-      const [rows] = await db.pool.query(
-        "SELECT * FROM realtime WHERE device_id = ?",
-        [device_id]
-      );
-      res.json(rows);
+      const data = await db.getData(); // 데이터 조회
+      res.json(data); // JSON 형태로 응답
     } catch (err) {
-      console.error(err);
-      res.status(500).send("Internal Server Error");
+      console.log(err);
+      res.status(500).send('Internal Server Error');
     }
   };
+  
