@@ -29,11 +29,20 @@ class MqttSetup {
   }
 
   // 서버 => 디바이스
-  sendInstruction(topic, message, err) {
+  sendCommand(topic, message, err) {
     if (!err) {
       this._client.publish(this._topic, JSON.stringify(message));
     } else {
       console.log('Publish Error: ', err);
+    }
+  }
+
+  // 디바이스 => 클라이언트
+  sendRealTimeData(callback, err) {
+    if (!err) {
+      this._client.on('message', callback);
+    } else {
+      console.log('Real Time Error: ', err);
     }
   }
 
