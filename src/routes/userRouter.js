@@ -1,11 +1,16 @@
 import express from 'express';
+import login from '../controller/user/loginController.js';
 
-const userRouter = express.userRouter();
+import loginAuth from '../middleware/loginAuth.js';
 
-userRouter.post('/login', loginAuth, loginController);
-userRouter.get('/accessToken', accessTokenController);
-userRouter.get('/refreshToken', refreshTokenController);
-userRouter.get('/login/success', SuccessController);
-userRouter.post('/logout', logoutController);
+const userRouter = express.Router();
 
-userRouter.post('/register', registerController);
+userRouter.post('/login', loginAuth, login);
+userRouter.get('/accessToken');
+userRouter.get('/refreshToken');
+userRouter.get('/login/success');
+userRouter.post('/logout');
+
+userRouter.post('/register');
+
+export default userRouter;

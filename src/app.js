@@ -24,6 +24,7 @@ app.use('/api', apiRouter);
 
 // 정적 경로 설정
 app.use('/static', express.static('uploads'));
+app.set('view engine', 'ejs');
 
 // 포트 연결
 const port = parseInt(process.env.PORT ?? '8080');
