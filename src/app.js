@@ -3,18 +3,9 @@ import dotenv from 'dotenv';
 import apiRouter from './routes/index.js';
 import DB from './dbconfig.js';
 import MqttSetup from './mqtt-client/mqtt-client.js';
-<<<<<<< Updated upstream
 import messageCallback from './mqtt-client/mqtt-controller.js';
 import cors from 'cors';
-=======
-import {
-  messageCallback,
-  realTimeCallback,
-} from './mqtt-client/mqtt-controller.js';
-import cors from 'cors';
-// import sendRealTimeData from './mqtt-client/webSocket.js';
 import WebSocket from 'ws';
->>>>>>> Stashed changes
 
 dotenv.config();
 
@@ -30,10 +21,7 @@ app.use('/api', apiRouter);
 
 // 정적 경로 설정
 app.use('/static', express.static('uploads'));
-<<<<<<< Updated upstream
-=======
 app.set('view engine', 'ejs');
->>>>>>> Stashed changes
 
 // 포트 연결
 const port = parseInt(process.env.PORT ?? '8080');
@@ -74,8 +62,4 @@ function getDBConnection() {
   return db;
 }
 
-<<<<<<< Updated upstream
-export default { getDBConnection, mqttClient };
-=======
 export default getDBConnection;
->>>>>>> Stashed changes
