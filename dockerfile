@@ -1,8 +1,8 @@
-FROM node:20.0.0
+FROM node:alpine
 
 WORKDIR /source
 ADD . /source
-VOLUME [ "/source" ]
+
 RUN npm install
 
 EXPOSE 5000
