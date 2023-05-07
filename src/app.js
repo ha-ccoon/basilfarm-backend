@@ -29,6 +29,20 @@ app.listen(port, () => {
   console.log(`🚀 서버가 포트 ${port}에서 운영중입니다.`);
 });
 
+// 실시간 데이터 전송
+const wss = new WebSocket.Server({ port: 8001 });
+function sendRealTimeData() {
+  wss.on('connection', (ws) => {
+    console.log('Wss is connected');
+
+    mqttClient.receiveMessage(async (message) => {
+      await ws.send(message);
+      console.log('실시간 데이터 전송중');
+    });
+  });
+}
+sendRealTimeData();
+
 // MQTT connection
 const mqttOptions = {
   host: process.env.MQTT_HOST,
