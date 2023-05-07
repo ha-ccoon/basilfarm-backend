@@ -37,6 +37,15 @@ class MqttSetup {
     }
   }
 
+  // 디바이스 => 클라이언트
+  sendRealTimeData(callback, err) {
+    if (!err) {
+      this._client.on('message', callback);
+    } else {
+      console.log('Real Time Error: ', err);
+    }
+  }
+
   // 디바이스 => 데이터베이스
   receiveMessage(callback, err) {
     if (!err) {
