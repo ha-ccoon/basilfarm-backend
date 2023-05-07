@@ -1,5 +1,3 @@
-import { issueAccessToken, issueRefreshToken } from './tokenController';
-
 const login = (req, res, next) => {
   const { email, password } = req.body;
 
@@ -54,3 +52,5 @@ const login = (req, res, next) => {
     }
   }
 };
+
+export default login;
