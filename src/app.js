@@ -19,7 +19,6 @@ app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: false }));
 app.use('/api', apiRouter);
 
-// 정적 경로 설정
 app.use('/static', express.static('uploads'));
 app.set('view engine', 'ejs');
 
