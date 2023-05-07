@@ -5,7 +5,7 @@ import DB from './dbconfig.js';
 import MqttSetup from './mqtt-client/mqtt-client.js';
 import messageCallback from './mqtt-client/mqtt-controller.js';
 import cors from 'cors';
-import WebSocket from 'ws';
+import {WebSocketServer} from 'ws';
 
 dotenv.config();
 
@@ -30,7 +30,7 @@ app.listen(port, () => {
 });
 
 // 실시간 데이터 전송
-const wss = new WebSocket.Server({ port: 8001 });
+const wss = new WebSocketServer({ port: 8001 });
 function sendRealTimeData() {
   wss.on('connection', (ws) => {
     console.log('Wss is connected');
@@ -55,19 +55,6 @@ const mqttClient = new MqttSetup(mqttOptions, ['data/unit002/#']);
 mqttClient.connect();
 mqttClient.subscribe();
 mqttClient.receiveMessage(messageCallback);
-
-const wss = new WebSocket.Server({ port: 8001 });
-function sendRealTimeData() {
-  wss.on('connection', (ws) => {
-    console.log('Wss is connected');
-
-    mqttClient.receiveMessage(async (message) => {
-      await ws.send(message);
-      console.log('실시간 데이터 전송중');
-    });
-  });
-}
-sendRealTimeData();
 
 // MySQL connection 실행
 function getDBConnection() {
