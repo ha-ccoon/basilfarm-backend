@@ -2,7 +2,7 @@
   "name": "basilfarm",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "type": "module",
   "scripts": {
     "start": "nodemon src/app.js",
@@ -11,9 +11,13 @@
   "author": "bts",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "mysql2": "^3.2.3"
+    "jsonwebtoken": "^9.0.0",
+    "mqtt": "^4.3.7",
+    "mysql2": "^3.2.3",
+    "ws": "^8.13.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"

@@ -1,10 +1,9 @@
-import express from "express";
+import express from 'express';
+import { getSensorData, getSensorDataByDeviceId } from '../controller/sensorController.js';
 
 const sensorRouter = express.Router();
+sensorRouter.get('/', getSensorData);
+sensorRouter.get('/:device_id', getSensorDataByDeviceId);
 
-sensorRouter.get("/", (req, res) => {
-  res.json({message: "This is Sensor!"});
-  console.log("sensor 로드");
-});
 
 export default sensorRouter;
