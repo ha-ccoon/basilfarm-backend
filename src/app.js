@@ -3,12 +3,8 @@ import dotenv from 'dotenv';
 import apiRouter from './routes/index.js';
 import DB from './dbconfig.js';
 import MqttSetup from './mqtt-client/mqtt-client.js';
-import {
-  messageCallback,
-  realTimeCallback,
-} from './mqtt-client/mqtt-controller.js';
+import messageCallback from './mqtt-client/mqtt-controller.js';
 import cors from 'cors';
-// import sendRealTimeData from './mqtt-client/webSocket.js';
 import WebSocket from 'ws';
 
 dotenv.config();
@@ -23,7 +19,6 @@ app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: false }));
 app.use('/api', apiRouter);
 
-// 정적 경로 설정
 app.use('/static', express.static('uploads'));
 app.set('view engine', 'ejs');
 

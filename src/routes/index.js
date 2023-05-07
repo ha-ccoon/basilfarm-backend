@@ -12,7 +12,9 @@ router.use('/actuators/pump', actuatorRouter);
 router.use('/actuators/led', actuatorRouter);
 router.use('/actuators/fan', actuatorRouter);
 
+// websocket 확인용
 router.use('/wss', (req, res) => {
   res.render('wss');
 });
+
 export default router;
