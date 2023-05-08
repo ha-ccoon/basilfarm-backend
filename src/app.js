@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import apiRouter from './routes/index.js';
-import DB from './database.js';
+import insertDB from './database.js';
 import MqttClient from './mqtt-client/mqtt-client.js';
 import messageCallback from './mqtt-client/mqtt-controller.js';
 import cors from 'cors';
@@ -43,7 +43,7 @@ mqttClient.receiveMessage(messageCallback);
 
 // MySQL connection 실행
 const getDBConnection = () => {
-  const db = new DB();
+  const db = new insertDB();
   return db;
 };
 

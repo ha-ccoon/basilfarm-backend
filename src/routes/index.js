@@ -14,9 +14,4 @@ router.use('/actuators/led', actuator);
 router.use('/actuators/fan', actuator);
 router.use('/user', user);
 
-// websocket 확인용
-router.use('/wss', (req, res) => {
-  res.render('wss');
-});
-
 export default router;

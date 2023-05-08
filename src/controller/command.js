@@ -1,15 +1,15 @@
 import mqttClient from '../app.js';
-import DB from '../database.js';
+import insertDB from '../database.js';
 
-const db = new DB();
+const db = new insertDB();
 
-export const getOneDevice = async (device_id) => {
+const getOneDevice = async (device_id) => {
   const sql = `SELECT * FROM device where device_id=?`;
   const row = await this.pool.query(sql, [device_id, id]);
   return { row };
 };
 
-export const commandCallback = async (req, res) => {
+const commandCallback = async (req, res) => {
   const { device_id } = req.params;
   const { actuator } = req.query;
   const { command } = req.body;
@@ -27,3 +27,5 @@ export const commandCallback = async (req, res) => {
     command,
   });
 };
+
+export { getOneDevice, commandCallback };
