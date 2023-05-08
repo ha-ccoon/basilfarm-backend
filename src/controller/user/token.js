@@ -11,6 +11,5 @@ const verifyAccessToken = (req, res) => {
     const userData = db.filter((data) => {
       return data.email === verification.email;
     });
-  } catch (error) {}
+  } catch (err) {}
 };
-
