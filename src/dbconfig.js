@@ -1,5 +1,5 @@
-import mysql from "mysql2/promise";
-import dotenv from "dotenv";
+import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -40,6 +40,12 @@ export default class DB {
     ]);
 
     return { rows };
+  }
+
+  async getOneDevice(device_id) {
+    const sql = `SELECT * FROM device where device_id=?;`;
+    const rows = await this.pool.query(sql, [device_id, id]);
+    return rows;
   }
 
   // 5분 주기로 데이터를 저장하는 함수

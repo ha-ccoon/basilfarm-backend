@@ -29,7 +29,7 @@ class MqttSetup {
   }
 
   // 서버 => 디바이스
-  sendInstruction(topic, message, err) {
+  sendCommand(topic, message, err) {
     if (!err) {
       this._client.publish(this._topic, JSON.stringify(message));
     } else {

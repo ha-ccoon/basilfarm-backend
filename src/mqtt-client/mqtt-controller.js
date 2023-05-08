@@ -1,4 +1,5 @@
 import getDBConnection from '../app.js';
+import WebSocket from 'ws';
 
 const messageCallback = async (topic, message) => {
   console.log(topic, message.toString());
@@ -16,7 +17,7 @@ const messageCallback = async (topic, message) => {
           temp: messageJson.temp,
           humidity: messageJson.humidity,
           light: messageJson.light,
-          water_level:messageJson.water_level,
+          water_level: messageJson.water_level,
           moisture: messageJson.moisture,
           created_at: messageJson.created_at,
         });
