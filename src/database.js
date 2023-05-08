@@ -1,9 +1,6 @@
 import mysql from 'mysql2/promise';
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-export default class DB {
+export default class insertDB {
   constructor() {
     this.pool = mysql.createPool({
       host: process.env.MYSQL_HOST,
@@ -16,7 +13,7 @@ export default class DB {
     });
   }
 
-  async insertData({
+  async sensorData({
     idx,
     device_id,
     temp,
@@ -26,9 +23,9 @@ export default class DB {
     moisture,
     created_at,
   }) {
-    const sensorsql = `INSERT INTO sensor_history 
+    const sql = `INSERT INTO sensor_history 
     (idx, device_id, temp, humidity, light, water_level, moisture, created_at) values (?,?,?,?,?,?,?,?)`;
-    const rows = await this.pool.query(sensorsql, [
+    const row = await this.pool.query(sql, [
       idx,
       device_id,
       temp,
@@ -38,22 +35,6 @@ export default class DB {
       moisture,
       created_at,
     ]);
-
-    return { rows };
-  }
-
-  async getOneDevice(device_id) {
-    const sql = `SELECT * FROM device where device_id=?;`;
-    const rows = await this.pool.query(sql, [device_id, id]);
-    return rows;
-  }
-
-  // 5분 주기로 데이터를 저장하는 함수
-  async saveDataPeriodically(data) {
-    const interval = 5 * 60 * 1000; // 5분 간격
-    while (true) {
-      await this.insertData(data);
-      await new Promise((resolve) => setTimeout(resolve, interval));
-    }
+    return { row };
   }
 }

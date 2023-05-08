@@ -1,6 +1,6 @@
 import * as mqtt from 'mqtt';
 
-class MqttSetup {
+class MqttClient {
   constructor(options, topics) {
     this._options = options;
     this._topics = topics;
@@ -54,4 +54,4 @@ class MqttSetup {
   }
 }
 
-export default MqttSetup;
+export default MqttClient;
