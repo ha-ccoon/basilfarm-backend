@@ -1,8 +1,8 @@
-import DB from '../database.js';
+import insertDB from '../database.js';
 
-const db = new DB();
+const db = new insertDB();
 
-export const getSensorData = async (req, res) => {
+const getSensorData = async (req, res) => {
   try {
     const [rows] = await db.pool.query(
       'SELECT * FROM sensor_history ORDER BY created_at DESC LIMIT 10'
@@ -14,7 +14,7 @@ export const getSensorData = async (req, res) => {
   }
 };
 
-export const getSensorDataByDeviceId = async (req, res) => {
+const getSensorDataByDeviceId = async (req, res) => {
   const { device_id } = req.params;
   try {
     const [rows] = await db.pool.query(
@@ -27,3 +27,5 @@ export const getSensorDataByDeviceId = async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 };
+
+export { getSensorData, getSensorDataByDeviceId };

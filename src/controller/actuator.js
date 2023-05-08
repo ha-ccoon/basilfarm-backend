@@ -1,11 +1,11 @@
-import DB from '../database.js';
+import insertDB from '../database.js';
 
-const db = new DB();
+const db = new insertDB();
 
-export const getActuatorData = async (req, res) => {
+const getActuatorData = async (req, res) => {
   try {
     const [rows] = await db.pool.query(
-      'SELECT * FROM actuator_config DESC LIMIT 10 '
+      'SELECT * FROM actuator_config ORDER BY created_at DESC LIMIT 10'
     );
     res.json(rows);
   } catch (err) {
@@ -14,7 +14,7 @@ export const getActuatorData = async (req, res) => {
   }
 };
 
-export const getActuatorDataByDeviceId = async (req, res) => {
+const getActuatorDataByDeviceId = async (req, res) => {
   const { device_id } = req.params;
   try {
     const [rows] = await db.pool.query(
@@ -27,3 +27,5 @@ export const getActuatorDataByDeviceId = async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 };
+
+export { getActuatorData, getActuatorDataByDeviceId };
