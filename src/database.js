@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 
-export default class insertDB {
+export default class DB {
   constructor() {
     this.pool = mysql.createPool({
       host: process.env.MYSQL_HOST,
@@ -13,7 +13,7 @@ export default class insertDB {
     });
   }
 
-  async sensorData({
+  async insertSensorHistory({
     idx,
     device_id,
     temp,
@@ -24,7 +24,7 @@ export default class insertDB {
     created_at,
   }) {
     const sql = `INSERT INTO sensor_history 
-    (idx, device_id, temp, humidity, light, water_level, moisture, created_at) values (?,?,?,?,?,?,?,?)`;
+    (idx, device_id, temp, humidity, light, water_level, moisture, created_at) VALUES (?,?,?,?,?,?,?,?)`;
     const row = await this.pool.query(sql, [
       idx,
       device_id,
@@ -35,6 +35,31 @@ export default class insertDB {
       moisture,
       created_at,
     ]);
+    return { row };
+  }
+
+  // 유저 데이터 저장
+  async saveUser({
+    id,
+    password,
+    phone,
+    email,
+    fullname,
+    picture,
+    created_at,
+  }) {
+    const sql = `INSERT INTO user
+  (id, password, phone, email, fullname, picture, created_at) VALUES (?,?,?,?,?,?,?)`;
+    const row = await this.pool.query(sql, [
+      id,
+      password,
+      phone,
+      email,
+      fullname,
+      picture,
+      created_at,
+    ]);
+
     return { row };
   }
 }
