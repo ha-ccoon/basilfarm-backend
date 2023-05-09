@@ -11,7 +11,7 @@ const messageCallback = async (topic, message) => {
     switch (topicType) {
       case 'data':
         const db = getDBConnection();
-        await db.insertData({
+        await db.insertSensorHistory({
           idx: messageJson.idx,
           device_id: messageJson.device_id,
           temp: messageJson.temp,

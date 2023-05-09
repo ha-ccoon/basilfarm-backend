@@ -22,7 +22,7 @@ app.use('/static', express.static('uploads'));
 app.set('view engine', 'ejs');
 
 // 포트 연결
-const port = parseInt(process.env.PORT ?? "8080");
+const port = parseInt(process.env.PORT ?? '8080');
 
 app.listen(port, () => {
   console.log(`🚀 서버가 포트 ${port}에서 운영중입니다.`);
@@ -46,5 +46,12 @@ const getDBConnection = () => {
   const db = new DB();
   return db;
 };
+
+const errorHandler = (err, req, res, next) => {
+  console.log(err);
+  res.status(500).json({ message: 'Internal Server Error' });
+};
+
+app.use(errorHandler);
 
 export default getDBConnection;
