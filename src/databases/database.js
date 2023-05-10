@@ -1,4 +1,6 @@
 import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export default class DB {
   constructor() {
@@ -37,7 +39,6 @@ export default class DB {
     ]);
     return { row };
   }
-<<<<<<< HEAD
 
   // 유저 데이터 저장
   async saveUser({
@@ -64,6 +65,3 @@ export default class DB {
     return { row };
   }
 }
-=======
-}
->>>>>>> e13626b6ab6c90d1a6ca9eeac0952e14245f1841

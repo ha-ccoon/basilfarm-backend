@@ -1,5 +1,4 @@
 import getDBConnection from '../app.js';
-import WebSocket from 'ws';
 
 const messageCallback = async (topic, message) => {
   console.log(topic, message.toString());

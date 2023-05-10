@@ -1,10 +1,10 @@
 import express from 'express';
 import {
   getActuatorData,
-  getActuatorDataByDeviceId,
+  getActuatorDataByDeviceId
 } from '../controller/actuator.js';
 
-export const router = express.Router();
+const router = express.Router();
 
 router.get('/', getActuatorData);
 router.get('/:device_id', getActuatorDataByDeviceId);

@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
-import userInfo from './sign-in.js';
+import router from '../../routes/index.js';
+import userInfo from './login.js';
 
 const verifyAccessToken = (req, res) => {
   try {
