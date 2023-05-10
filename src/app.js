@@ -7,8 +7,9 @@ import messageCallback from './mqtt-client/mqtt-controller.js';
 import cors from 'cors';
 
 dotenv.config();
-
 const app = express();
+
+// 모든 도메인의 요청을 허용하는 cors 옵션
 const corsOptions = {
   origin: '*',
 };
@@ -28,7 +29,7 @@ app.listen(port, () => {
   console.log(`🚀 서버가 포트 ${port}에서 운영중입니다.`);
 });
 
-// MQTT connection
+// MQTT connection 실행
 const mqttOptions = {
   host: process.env.MQTT_HOST,
   port: process.env.MQTT_PORT,
