@@ -1,5 +1,4 @@
 import getDBConnection from '../app.js';
-import WebSocket from 'ws';
 
 const messageCallback = async (topic, message) => {
   console.log(topic, message.toString());
@@ -11,7 +10,7 @@ const messageCallback = async (topic, message) => {
     switch (topicType) {
       case 'data':
         const db = getDBConnection();
-        await db.insertData({
+        await db.sensorData({
           idx: messageJson.idx,
           device_id: messageJson.device_id,
           temp: messageJson.temp,
