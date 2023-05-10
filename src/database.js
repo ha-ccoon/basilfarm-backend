@@ -13,6 +13,7 @@ export default class insertDB {
     });
   }
 
+  // 디바이스로 받은 센서 데이터 DB에 저장
   async sensorData({
     idx,
     device_id,
