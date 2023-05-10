@@ -1,15 +1,18 @@
-import getDBConnection from '../../app.js';
+import jwt from 'jsonwebtoken';
+import { findUser } from './user-db.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const login = (req, res, next) => {
-  const { email, password } = req.body;
-  const db = getDBConnection();
+const signIn = async (req, res, next) => {
+  const { id, password } = req.body;
 
   // DB에 로그인 정보 확인
-  const userInfo = db.saveUser.filter((data) => {
+  const existedId = await findUser(id);
+  const confirmId = existedId.filter((data) => {
     return id === data.id;
   });
 
-  if (!userInfo) {
+  if (!confirmId) {
     res.status(403).json({ message: '존재 하지 않는 아이디입니다.' });
     next();
   }
@@ -17,8 +20,7 @@ const login = (req, res, next) => {
   try {
     const accessTk = jwt.sign(
       {
-        id: userInfo.id,
-        created_at: userInfo.created_at,
+        id: confirmId.id,
       },
       process.env.ACCESS_TOKEN_SECRET,
       {
@@ -29,8 +31,7 @@ const login = (req, res, next) => {
 
     const refreshTk = jwt.sign(
       {
-        id: userInfo.id,
-        email: userInfo.email,
+        id: confirmId.id,
       },
       process.env.REFRESH_TOKEN_SECRET,
       {
@@ -39,27 +40,28 @@ const login = (req, res, next) => {
       }
     );
 
-    const encryptedAccessToken = crypto
-      .createCipher('aes-256-cbc', process.env.ACCESS_TOKEN_SECRET)
-      .update(accessTk, 'utf8', 'hex');
-    const encryptedRefreshToken = crypto
-      .createCipher('aes-256-cbc', process.env.REFRESH_TOKEN_SECRET)
-      .update(refreshTk, 'utf8', 'hex');
+    // const encryptedAccessToken = crypto
+    //   .createCipher('aes-256-cbc', process.env.ACCESS_TOKEN_SECRET)
+    //   .update(accessTk, 'utf8', 'hex');
+    // const encryptedRefreshToken = crypto
+    //   .createCipher('aes-256-cbc', process.env.REFRESH_TOKEN_SECRET)
+    //   .update(refreshTk, 'utf8', 'hex');
 
-    res.cookie('accessToken', encryptedAccessToken, {
+    res.cookie('accessToken', accessTk, {
       httpOnly: true,
-      secure: true,
+      // secure: true,
     });
 
-    res.cookie('refreshToken', encryptedRefreshToken, {
+    res.cookie('refreshToken', refreshTk, {
       httpOnly: true,
-      secure: true,
+      // secure: true,
     });
 
     res.status(200).json({ message: '로그인에 성공하였습니다.' });
   } catch (err) {
-    next(err);
+    res.status(401).json({ message: '로그인에 실패하였습니다.' });
+    next();
   }
 };
 
-export default login;
+export default signIn;

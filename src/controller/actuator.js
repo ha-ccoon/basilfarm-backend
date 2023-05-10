@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 import insertDB from '../database.js';
+=======
+import DB from '../databases/database.js';
+>>>>>>> Stashed changes
 
 const db = new insertDB();
 
@@ -13,8 +17,13 @@ const getActuatorData = async (req, res) => {
     const [row] = await db.pool.query(query, [start_time]);
     res.json(row);
   } catch (err) {
+<<<<<<< Updated upstream
       console.error(err);
       next(err);
+=======
+    console.error(err);
+    next(err);
+>>>>>>> Stashed changes
   }
 };
 

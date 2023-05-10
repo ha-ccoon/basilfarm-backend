@@ -28,21 +28,21 @@ class MqttClient {
     });
   }
 
-  // 서버 => 디바이스
-  sendCommand(topic, message, err) {
-    if (!err) {
-      this._client.publish(this._topic, JSON.stringify(message));
-    } else {
-      console.log('Publish Error: ', err);
-    }
-  }
-
   // 디바이스 => 데이터베이스
   receiveMessage(callback, err) {
     if (!err) {
       this._client.on('message', callback);
     } else {
       console.log('Receiving Message Error: ', err);
+    }
+  }
+
+  // 서버 => 디바이스
+  sendCommand(topic, message, err) {
+    if (!err) {
+      this._client.publish(this._topic, JSON.stringify(message));
+    } else {
+      console.log('Publish Error: ', err);
     }
   }
 
