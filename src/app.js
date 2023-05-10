@@ -1,10 +1,11 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import apiRouter from './routes/index.js';
-import insertDB from './database.js';
+import DB from './databases/database.js';
 import MqttClient from './mqtt-client/mqtt-client.js';
 import messageCallback from './mqtt-client/mqtt-controller.js';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 const app = express();
@@ -17,6 +18,7 @@ const corsOptions = {
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use('/api', apiRouter);
 
 app.use('/static', express.static('uploads'));
@@ -47,5 +49,12 @@ const getDBConnection = () => {
   const db = new insertDB();
   return db;
 };
+
+const errorHandler = (err, req, res, next) => {
+  console.log(err);
+  res.status(500).json({ message: 'Internal Server Error' });
+};
+
+app.use(errorHandler);
 
 export default getDBConnection;

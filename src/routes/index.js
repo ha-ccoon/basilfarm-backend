@@ -1,15 +1,14 @@
 import express from 'express';
-import actuator from './actuator.js';
-import sensor from './sensor.js';
-import user from './user.js';
-
 const router = express.Router();
 
-router.use('/sensors', sensor);
-router.use('/actuators', actuator);
-router.use('/actuators/pump', actuator);
-router.use('/actuators/led', actuator);
-router.use('/actuators/fan', actuator);
-router.use('/user', user);
+import actuatorRouter from './actuator.js';
+import sensorRouter from './sensor.js';
+import realtimeRouter from './realtime.js';
+import userRouter from './user.js';
+
+router.use('/realtime', realtimeRouter);
+router.use('/sensors', sensorRouter);
+router.use('/actuators', actuatorRouter);
+router.use('/user', userRouter);
 
 export default router;

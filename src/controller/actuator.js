@@ -1,4 +1,4 @@
-import insertDB from '../database.js';
+import DB from '../databases/database.js';
 
 const db = new insertDB();
 
@@ -12,8 +12,8 @@ const getActuatorData = async (req, res) => {
     const [row] = await db.pool.query(query, [start_time]);
     res.json(row);
   } catch (err) {
-      console.error(err);
-      next(err);
+    console.error(err);
+    next(err);
   }
 };
 
@@ -28,8 +28,8 @@ const getActuatorDataByDeviceId = async (req, res) => {
     const [row] = await db.pool.query(query, [device_id, start_time]);
     res.json(row);
   } catch (err) {
-      console.error(err);
-      next(err);
+    console.error(err);
+    next(err);
   }
 };
 
