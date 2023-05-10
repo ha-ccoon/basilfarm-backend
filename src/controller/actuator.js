@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-import insertDB from '../database.js';
-=======
 import DB from '../databases/database.js';
->>>>>>> Stashed changes
 
 const db = new insertDB();
 
@@ -12,18 +8,12 @@ const getActuatorData = async (req, res) => {
   const { start_time } = req.query;
   const query = `SELECT * FROM actuator_config WHERE created_at >= ?`;
 
-const getActuatorData = async (req, res) => {
   try {
     const [row] = await db.pool.query(query, [start_time]);
     res.json(row);
   } catch (err) {
-<<<<<<< Updated upstream
-      console.error(err);
-      next(err);
-=======
     console.error(err);
     next(err);
->>>>>>> Stashed changes
   }
 };
 
@@ -38,8 +28,8 @@ const getActuatorDataByDeviceId = async (req, res) => {
     const [row] = await db.pool.query(query, [device_id, start_time]);
     res.json(row);
   } catch (err) {
-      console.error(err);
-      next(err);
+    console.error(err);
+    next(err);
   }
 };
 

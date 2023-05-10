@@ -1,9 +1,5 @@
 import mqttClient from '../app.js';
-<<<<<<< Updated upstream
-import insertDB from '../database.js';
-=======
 import DB from '../databases/database.js';
->>>>>>> Stashed changes
 
 const db = new insertDB();
 

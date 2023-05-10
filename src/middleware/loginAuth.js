@@ -3,16 +3,6 @@ import { findUser } from '../controller/user/user-db.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-const verifyToken = (req, res, next) => {
-  
-}
-export default loginAuth;
-=======
-export default loginAuth;
->>>>>>> dev
-=======
 const authAccessToken = async (req, res, next) => {
   try {
     // accessToken 유효성 검사
@@ -77,4 +67,4 @@ const authAccessToken = async (req, res, next) => {
 };
 
 export default authAccessToken;
->>>>>>> Stashed changes
+

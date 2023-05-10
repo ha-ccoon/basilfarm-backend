@@ -1,11 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import apiRouter from './routes/index.js';
-<<<<<<< Updated upstream
-import insertDB from './database.js';
-=======
 import DB from './databases/database.js';
->>>>>>> Stashed changes
 import MqttClient from './mqtt-client/mqtt-client.js';
 import messageCallback from './mqtt-client/mqtt-controller.js';
 import cors from 'cors';
@@ -54,11 +50,11 @@ const getDBConnection = () => {
   return db;
 };
 
-// const errorHandler = (err, req, res, next) => {
-//   console.log(err);
-//   res.status(500).json({ message: 'Internal Server Error' });
-// };
+const errorHandler = (err, req, res, next) => {
+  console.log(err);
+  res.status(500).json({ message: 'Internal Server Error' });
+};
 
-// app.use(errorHandler);
+app.use(errorHandler);
 
 export default getDBConnection;
