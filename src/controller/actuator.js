@@ -13,7 +13,7 @@ const getActuatorData = async (req, res) => {
     res.json(row);
   } catch (err) {
     console.error(err);
-    next(err);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
@@ -29,7 +29,7 @@ const getActuatorDataByDeviceId = async (req, res) => {
     res.json(row);
   } catch (err) {
     console.error(err);
-    next(err);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 

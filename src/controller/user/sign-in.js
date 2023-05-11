@@ -4,7 +4,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const signIn = async (req, res, next) => {
-  const { id, password } = req.body;
+  const { id } = req.body;
+  console.log(id);
 
   // DB에 로그인 정보 확인
   const existedId = await findUser(id);

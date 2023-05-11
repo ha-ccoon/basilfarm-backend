@@ -6,6 +6,7 @@ import {
 
 const router = express.Router();
 
+
 router.get('/', getActuatorData);
 router.get('/:device_id', getActuatorDataByDeviceId);
 router.post('/:device_id/pump/');

@@ -3,7 +3,10 @@ import dotenv from 'dotenv';
 import apiRouter from './routes/index.js';
 import DB from './database.js';
 import MqttClient from './mqtt-client/mqtt-client.js';
-import messageCallback from './mqtt-client/mqtt-controller.js';
+import {
+  messageCallback,
+  setInitialSubTopic,
+} from './mqtt-client/mqtt-controller.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
@@ -38,10 +41,12 @@ const mqttOptions = {
   username: process.env.MQTT_USERNAME,
   password: process.env.MQTT_PASSWORD,
 };
+const initialSubTopic = 'initialCheck';
 
-const mqttClient = new MqttClient(mqttOptions, ['data/unit001/#']);
+const mqttClient = new MqttClient(mqttOptions, initialSubTopic);
 mqttClient.connect();
 mqttClient.subscribe();
+mqttClient.receiveMessage(setInitialSubTopic);
 mqttClient.receiveMessage(messageCallback);
 
 // MySQL connection 실행
