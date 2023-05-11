@@ -4,6 +4,7 @@ const db = new DB();
 
 // 유저 검색
 const findUser = async (id) => {
+  // console.log(id);
   try {
     const [row] = await db.pool.query('SELECT * FROM user WHERE id = ?', [id]);
     return row;
@@ -15,7 +16,10 @@ const findUser = async (id) => {
 // 유저 정보 검색
 const userInfo = async (req, res) => {
   try {
-    const [row] = await db.pool.query('SELECT * FROM user WHERE id = ?', [id]);
+    const userId = req.params.id;
+    const [row] = await db.pool.query('SELECT * FROM user WHERE id = ?', [
+      userId,
+    ]);
     res.json(row);
   } catch (err) {
     throw Error();

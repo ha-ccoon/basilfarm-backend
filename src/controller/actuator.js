@@ -1,6 +1,6 @@
 import DB from '../databases/database.js';
 
-const db = new insertDB();
+const db = new DB();
 
 // /api/actuators?start_time=
 // 전체 엑츄에이터 데이터를 쿼리로 기입한 시작일 기점으로 가져오기

@@ -11,6 +11,7 @@ const signIn = async (req, res, next) => {
   const confirmId = existedId.filter((data) => {
     return id === data.id;
   });
+  console.log('로그인 확인: ', existedId, confirmId);
 
   if (!confirmId) {
     res.status(403).json({ message: '존재 하지 않는 아이디입니다.' });
@@ -18,9 +19,10 @@ const signIn = async (req, res, next) => {
   }
 
   try {
+    console.log('유저 아이디: ', confirmId[0].id);
     const accessTk = jwt.sign(
       {
-        id: confirmId.id,
+        id: confirmId[0].id,
       },
       process.env.ACCESS_TOKEN_SECRET,
       {
