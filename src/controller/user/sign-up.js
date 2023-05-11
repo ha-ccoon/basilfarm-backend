@@ -1,5 +1,6 @@
 import { findUser } from './user-db.js';
 import bcrypt from 'bcrypt';
+import { getDBConnection } from '../../app.js';
 
 const saltRound = 10;
 const condition = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/;
@@ -7,6 +8,7 @@ const condition = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/;
 const signUpUser = async (req, res, next) => {
   try {
     const { id, password, email, phone, fullname, created_at } = req.body;
+    const db = getDBConnection();
 
     // id 중복 검사
     const existedId = await findUser(id);
