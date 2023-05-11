@@ -1,38 +1,5 @@
-// import MqttClient from './mqtt-client.js';
-import { getDBConnection, mqttClient } from '../app.js';
-
-const initialPubTopic = 'initialResponse';
-
-const setInitialSubTopic = async (topic, message) => {
-  try {
-    const db = getDBConnection();
-    mqttClient.connect();
-    const deviceInfo = JSON.parse(message);
-    console.log('data', deviceInfo);
-    const result = await db.deviceCheck(deviceInfo.device_id);
-
-    if (result[0].length === 0) {
-      await db.insertDevice(deviceInfo);
-      await mqttClient.sendCommand(initialPubTopic, {
-        sensor: `data/${deviceInfo.device_id}/#`,
-        actuator: `control/${deviceInfo.device_id}/#`,
-      });
-      console.log('initial Response sent');
-      return;
-    }
-    if (result[0][0].device_id === deviceInfo.device_id) {
-      console.log('result[0]', result[0]);
-      await mqttClient.sendCommand(initialPubTopic, {
-        sensor: `data/${deviceInfo.device_id}/#`,
-        actuator: `cmd/${deviceInfo.device_id}/#`,
-      });
-      console.log('initial Response sent');
-      return;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
+import getDBConnection from '../app.js';
+import WebSocket from 'ws';
 
 const messageCallback = async (topic, message) => {
   console.log(topic, message.toString());
@@ -44,7 +11,7 @@ const messageCallback = async (topic, message) => {
     switch (topicType) {
       case 'data':
         const db = getDBConnection();
-        await db.insertSensorHistory({
+        await db.insertData({
           idx: messageJson.idx,
           device_id: messageJson.device_id,
           temp: messageJson.temp,
@@ -64,4 +31,4 @@ const messageCallback = async (topic, message) => {
   }
 };
 
-export { messageCallback, setInitialSubTopic };
+export default messageCallback;
