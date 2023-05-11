@@ -49,6 +49,11 @@ mqttClient.subscribe();
 mqttClient.receiveMessage(setInitialSubTopic);
 mqttClient.receiveMessage(messageCallback);
 
+const mqttClient1 = new MqttClient(mqttOptions, 'data/unit001/#');
+mqttClient1.connect();
+mqttClient1.subscribe();
+mqttClient1.receiveMessage(messageCallback);
+
 // MySQL connection 실행
 const getDBConnection = () => {
   const db = new DB();
