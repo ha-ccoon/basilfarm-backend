@@ -4,11 +4,12 @@ const db = new DB();
 
 // 유저 검색
 const findUser = async (id) => {
-  // console.log(id);
+  console.log(id);
   try {
     const [row] = await db.pool.query('SELECT * FROM user WHERE id = ?', [id]);
     return row;
   } catch (err) {
+    console.log(err);
     throw new Error();
   }
 };

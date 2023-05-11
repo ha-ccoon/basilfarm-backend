@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/sign_in', signIn);
 
 // 유저 정보
-router.get('/sign_in/mypage', authAccessToken, userInfo);
+router.get('/sign_in/my_page', authAccessToken, userInfo);
 router.post('/logout');
 router.post('/sign_up', signUpUser);
 
