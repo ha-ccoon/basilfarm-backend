@@ -5,14 +5,12 @@ dotenv.config();
 
 const signIn = async (req, res, next) => {
   const { id } = req.body;
-  console.log(id);
 
   // DB에 로그인 정보 확인
   const existedId = await findUser(id);
   const confirmId = existedId.filter((data) => {
     return id === data.id;
   });
-  console.log('로그인 확인: ', existedId, confirmId);
 
   if (!confirmId) {
     res.status(403).json({ message: '존재 하지 않는 아이디입니다.' });
