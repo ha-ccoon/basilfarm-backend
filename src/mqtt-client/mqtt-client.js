@@ -1,6 +1,6 @@
 import * as mqtt from 'mqtt';
 
-class MqttClient {
+class MqttSetup {
   constructor(options, topics) {
     this._options = options;
     this._topics = topics;
@@ -28,21 +28,21 @@ class MqttClient {
     });
   }
 
-  // 디바이스 => 데이터베이스
-  receiveMessage(callback, err) {
-    if (!err) {
-      this._client.on('message', callback);
-    } else {
-      console.log('Receiving Message Error: ', err);
-    }
-  }
-
   // 서버 => 디바이스
   sendCommand(topic, message, err) {
     if (!err) {
       this._client.publish(this._topic, JSON.stringify(message));
     } else {
       console.log('Publish Error: ', err);
+    }
+  }
+
+  // 디바이스 => 데이터베이스
+  receiveMessage(callback, err) {
+    if (!err) {
+      this._client.on('message', callback);
+    } else {
+      console.log('Receiving Message Error: ', err);
     }
   }
 
@@ -54,4 +54,4 @@ class MqttClient {
   }
 }
 
-export default MqttClient;
+export default MqttSetup;
