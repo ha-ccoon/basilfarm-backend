@@ -1,15 +1,16 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import apiRouter from './routes/index.js';
-import DB from './dbconfig.js';
-import MqttSetup from './mqtt-client/mqtt-client.js';
+import DB from './databases/database.js';
+import MqttClient from './mqtt-client/mqtt-client.js';
 import messageCallback from './mqtt-client/mqtt-controller.js';
 import cors from 'cors';
-import {WebSocketServer} from 'ws';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
-
 const app = express();
+
+// 모든 도메인의 요청을 허용하는 cors 옵션
 const corsOptions = {
   origin: '*',
 };
@@ -17,6 +18,7 @@ const corsOptions = {
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use('/api', apiRouter);
 
 app.use('/static', express.static('uploads'));
@@ -29,21 +31,7 @@ app.listen(port, () => {
   console.log(`🚀 서버가 포트 ${port}에서 운영중입니다.`);
 });
 
-// 실시간 데이터 전송
-const wss = new WebSocketServer({ port: 8001 });
-function sendRealTimeData() {
-  wss.on('connection', (ws) => {
-    console.log('Wss is connected');
-
-    mqttClient.receiveMessage(async (message) => {
-      await ws.send(message);
-      console.log('실시간 데이터 전송중');
-    });
-  });
-}
-sendRealTimeData();
-
-// MQTT connection
+// MQTT connection 실행
 const mqttOptions = {
   host: process.env.MQTT_HOST,
   port: process.env.MQTT_PORT,
@@ -51,15 +39,22 @@ const mqttOptions = {
   password: process.env.MQTT_PASSWORD,
 };
 
-const mqttClient = new MqttSetup(mqttOptions, ['data/unit002/#']);
+const mqttClient = new MqttClient(mqttOptions, ['data/unit002/#']);
 mqttClient.connect();
 mqttClient.subscribe();
 mqttClient.receiveMessage(messageCallback);
 
 // MySQL connection 실행
-function getDBConnection() {
-  const db = new DB();
+const getDBConnection = () => {
+  const db = new insertDB();
   return db;
-}
+};
+
+const errorHandler = (err, req, res, next) => {
+  console.log(err);
+  res.status(500).json({ message: 'Internal Server Error' });
+};
+
+app.use(errorHandler);
 
 export default getDBConnection;
