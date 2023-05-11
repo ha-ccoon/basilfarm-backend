@@ -14,7 +14,7 @@ const signUpUser = async (req, res, next) => {
     const existedId = await findUser(id);
     const confirmId = existedId.filter((data) => data.id === id);
     if (!confirmId) {
-      return res.status(400).json({ message: '사용 가능한 아이디 입니다.' });
+      return res.status(200).json({ message: '사용 가능한 아이디 입니다.' });
     }
 
     // password

@@ -1,5 +1,5 @@
 import express from 'express';
-import { commandCallback } from '../controller/command.js';
+import commandCallback from '../controller/command.js';
 
 const router = express.Router();
 
