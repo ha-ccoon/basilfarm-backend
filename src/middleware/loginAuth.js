@@ -7,7 +7,6 @@ const authAccessToken = async (req, res, next) => {
   try {
     // accessToken 유효성 검사
     const accessToken = req.headers.authorization?.split(' ')[1];
-    console.log(accessToken);
     if (!accessToken) {
       return res
         .status(401)

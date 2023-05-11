@@ -3,18 +3,20 @@ import signIn from '../controller/user/sign-in.js';
 import authAccessToken from '../middleware/loginAuth.js';
 import signUpUser from '../controller/user/sign-up.js';
 import { userInfo } from '../controller/user/user-db.js';
+import signOut from '../controller/user/sign-out.js';
 
 const router = express.Router();
 
+// 로그인
 router.post('/sign_in', signIn);
+
+// 회원가입
+router.post('/sign_up', signUpUser);
 
 // 유저 정보
 router.get('/sign_in/my_page', authAccessToken, userInfo);
-router.post('/logout');
-router.post('/sign_up', signUpUser);
 
-// router.get('/sign_in', (req, res) => {
-//   res.render('check');
-// });
+// 로그아웃
+router.get('/sign_out', authAccessToken, signOut);
 
 export default router;
