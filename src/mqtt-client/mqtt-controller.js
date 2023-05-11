@@ -55,6 +55,19 @@ const messageCallback = async (topic, message) => {
           created_at: messageJson.created_at,
         });
         break;
+
+      case 'cmd':
+        await db.insertActuatorConfig({
+          idx: messageJson.idx,
+          device_id: messageJson.device_id,
+          pump: messageJson.pump ? 1 : 0,
+          led: messageJson.led ? 1 : 0,
+          fan: messageJson.fan ? 1 : 0,
+          peltier: messageJson.peltier,
+          created_at: messageJson.created_at,
+        })
+        break;
+
       default:
         console.log("This topic isn't assigned");
         break;

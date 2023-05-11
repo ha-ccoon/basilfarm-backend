@@ -15,6 +15,7 @@ export default class DB {
     });
   }
 
+  // sensor 데이터 저장
   async insertSensorHistory({
     idx,
     device_id,
@@ -39,6 +40,30 @@ export default class DB {
     ]);
     return { row };
   }
+
+  // actuator 현재 상태 데이터 저장
+  async insertActuatorConfig({
+  idx,
+  device_id,
+  pump,
+  led,
+  fan,
+  peltier,
+  created_at,
+}) {
+  const sql = `INSERT INTO actuator_config 
+  (idx, device_id, pump, led, fan, peltier, created_at) VALUES (?,?,?,?,?,?,?)`;
+  const row = await this.pool.query(sql, [
+    idx,
+    device_id,
+    pump,
+    led,
+    fan,
+    peltier,
+    created_at,
+  ]);
+  return { row };
+}
 
   // 유저 데이터 저장
   async saveUser({
