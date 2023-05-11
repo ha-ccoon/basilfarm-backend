@@ -62,4 +62,30 @@ export default class DB {
 
     return { row };
   }
+
+  async deviceCheck(device_id) {
+    const result = await this.promisePool.query(
+      'SELECT * FROM devices WHERE device_id = ?',
+      [device_id]
+    );
+    return result;
+  }
+
+  async insertDevice({
+    device_id,
+    device_macAddress,
+    device_type,
+    device_name,
+  }) {
+    const result = await this.promisePool.query(
+      'INSERT INTO devices(device_id,device_macAddress,device_type,device_name) VALUES (?,?,?,?)',
+      [
+        data.device_id,
+        data.device_macAddress,
+        data.device_type,
+        data.device_name,
+      ]
+    );
+    return result;
+  }
 }
