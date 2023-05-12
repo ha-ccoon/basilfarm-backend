@@ -41,6 +41,38 @@ export default class DB {
     return { row };
   }
 
+  // 자동 제어 상태 저장
+  async insertAutoStatus({
+    idx,
+    device_id,
+    status,
+    target_temp,
+    target_moisture,
+    created_at,
+  }) {
+    const sql = 
+    `INSERT INTO auto_status
+      (idx, device_id, status, target_temp, target_moisture, created_at)
+    VALUES
+      (?, ?, ?, ?, ?, ?)
+    ON DUPLICATE KEY UPDATE
+      status = VALUES(status),
+      target_temp = VALUES(target_temp),
+      target_moisture = VALUES(target_moisture),
+      created_at = VALUES(created_at)`;
+    
+    const row = await this.pool.query(sql, [
+      idx,
+      device_id,
+      status,
+      target_temp,
+      target_moisture,
+      created_at,
+    ]);
+    return { row };
+}
+
+
   // actuator 현재 상태 데이터 저장
   async insertActuatorConfig({
   idx,

@@ -1,5 +1,5 @@
 // import MqttClient from './mqtt-client.js';
-import { getDBConnection, mqttClient } from '../app.js';
+import { getDBConnection } from '../app.js';
 
 const initialPubTopic = 'initialResponse';
 
