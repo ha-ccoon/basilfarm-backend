@@ -69,7 +69,7 @@ async function startAutoManagement(device_id, target_temp, target_moisture) {
       const pump = (moisture < target_moisture) ? 'run' : (moisture > target_moisture) ? 'stop' : '';
 
       // 추후 디바이스 작동 코드 작성 예정
-      mqttClient.sendCommand(`auto/${device_id}/${actuator}`, {
+      mqttClient.sendCommand(`auto/${device_id}`, {
         device_id,
         peltier,
         fan,
