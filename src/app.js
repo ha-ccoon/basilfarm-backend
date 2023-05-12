@@ -9,8 +9,6 @@ import {
 } from './mqtt-client/mqtt-controller.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import https from 'https';
-import fs from 'fs';
 
 dotenv.config();
 const app = express();

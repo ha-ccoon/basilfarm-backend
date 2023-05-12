@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { findUser } from '../controller/user/user-db.js';
+import { findUser } from '../controller/user/user.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -7,6 +7,7 @@ const authAccessToken = async (req, res, next) => {
   try {
     // accessToken 유효성 검사
     const accessToken = req.headers.authorization?.split(' ')[1];
+    console.log(accessToken);
     if (!accessToken) {
       return res
         .status(401)
@@ -17,11 +18,12 @@ const authAccessToken = async (req, res, next) => {
       accessToken,
       process.env.ACCESS_TOKEN_SECRET
     );
+    console.log(verifyAccess);
 
     req.params.id = verifyAccess.id;
 
     // refreshToken 유효성 검사
-    // const refreshToken = req.cookies.refreshToken;
+    // const refreshToken = req.headers.refreshToken;
     // if (!refreshToken) {
     //   return res
     //     .status(401)
