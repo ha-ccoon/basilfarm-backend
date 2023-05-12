@@ -1,7 +1,7 @@
 import { mqttClient } from '../app.js';
 
 export const commandCallback = async (req, res, next) => {
-  const { command, actuator } = req.body;
+  const { command, actuator, target_moisture } = req.body;
   const { device_id } = req.params;
   mqttClient.connect();
 
@@ -19,18 +19,31 @@ export const commandCallback = async (req, res, next) => {
       next();
     }
 
+    // 일반 디바이스 명령
     mqttClient.sendCommand(`cmd/${device_id}/${actuator}`, {
       device_id,
-      command,
+      command: 'run',
     });
 
+    // 펌프 전용 명령
     if (actuator === 'pump' && command === 'run') {
-      setTimeout((device_id) => {
+      const managePump = setTimeout((device_id) => {
         mqttClient.sendCommand(`cmd/${device_id}/pump`, {
           device_id,
           command,
         });
       }, 10000);
+      if (
+        target_moisture < target_moisture * 0.9 &&
+        target_moisture > target_moisture * 1.1
+      ) {
+        return managePump;
+      } else {
+        mqttClient.sendCommand(`cmd/${device_id}/pump`, {
+          device_id,
+          command: 'stop',
+        });
+      }
     }
 
     res.status(200).json({ message: '제어 명령이 디바이스로 전송되었습니다.' });
