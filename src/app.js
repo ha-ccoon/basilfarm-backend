@@ -49,6 +49,7 @@ const initialSubTopic = 'initialCheck';
 const mqttClient = new MqttClient(mqttOptions, initialSubTopic);
 mqttClient.connect();
 mqttClient.subscribe();
+mqttClient.receiveMessage(setInitialSubTopic);
 mqttClient.receiveMessage(messageCallback);
 
 const mqttClient1 = new MqttClient(mqttOptions, 'data/unit001/#');
