@@ -9,6 +9,8 @@ import {
 } from './mqtt-client/mqtt-controller.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import https from 'https';
+import fs from 'fs';
 
 dotenv.config();
 const app = express();
@@ -41,13 +43,13 @@ const mqttOptions = {
   username: process.env.MQTT_USERNAME,
   password: process.env.MQTT_PASSWORD,
 };
+
 const initialSubTopic = 'initialCheck';
 
-// const mqttClient = new MqttClient(mqttOptions, initialSubTopic);
-// mqttClient.connect();
-// mqttClient.subscribe();
-// mqttClient.receiveMessage(setInitialSubTopic);
-// mqttClient.receiveMessage(messageCallback);
+const mqttClient = new MqttClient(mqttOptions, initialSubTopic);
+mqttClient.connect();
+mqttClient.subscribe();
+mqttClient.receiveMessage(messageCallback);
 
 const mqttClient1 = new MqttClient(mqttOptions, 'data/unit001/#');
 mqttClient1.connect();
@@ -67,4 +69,4 @@ const errorHandler = (err, req, res, next) => {
 
 app.use(errorHandler);
 
-export { getDBConnection };
+export { getDBConnection, mqttClient };

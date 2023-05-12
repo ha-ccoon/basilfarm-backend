@@ -65,7 +65,7 @@ const messageCallback = async (topic, message) => {
           fan: messageJson.fan ? 1 : 0,
           peltier: messageJson.peltier,
           created_at: messageJson.created_at,
-        })
+        });
         break;
 
       default:
