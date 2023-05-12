@@ -43,17 +43,6 @@ export default class DB {
 
   // actuator 현재 상태 데이터 저장
   async insertActuatorConfig({
-  idx,
-  device_id,
-  pump,
-  led,
-  fan,
-  peltier,
-  created_at,
-}) {
-  const sql = `INSERT INTO actuator_config 
-  (idx, device_id, pump, led, fan, peltier, created_at) VALUES (?,?,?,?,?,?,?)`;
-  const row = await this.pool.query(sql, [
     idx,
     device_id,
     pump,
@@ -61,22 +50,25 @@ export default class DB {
     fan,
     peltier,
     created_at,
-  ]);
-  return { row };
-}
+  }) {
+    const sql = `INSERT INTO actuator_config 
+  (idx, device_id, pump, led, fan, peltier, created_at) VALUES (?,?,?,?,?,?,?)`;
+    const row = await this.pool.query(sql, [
+      idx,
+      device_id,
+      pump,
+      led,
+      fan,
+      peltier,
+      created_at,
+    ]);
+    return { row };
+  }
 
   // 유저 데이터 저장
-  async saveUser({
-    id,
-    password,
-    phone,
-    email,
-    fullname,
-    picture,
-    created_at,
-  }) {
+  async saveUser({ id, password, phone, email, fullname, picture }) {
     const sql = `INSERT INTO user
-  (id, password, phone, email, fullname, picture, created_at) VALUES (?,?,?,?,?,?,?)`;
+  (id, password, phone, email, fullname, picture) VALUES (?,?,?,?,?,?)`;
     const row = await this.pool.query(sql, [
       id,
       password,
@@ -84,7 +76,6 @@ export default class DB {
       email,
       fullname,
       picture,
-      created_at,
     ]);
 
     return { row };

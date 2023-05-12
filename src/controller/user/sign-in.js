@@ -48,15 +48,17 @@ const signIn = async (req, res, next) => {
     //   .createCipher('aes-256-cbc', process.env.REFRESH_TOKEN_SECRET)
     //   .update(refreshTk, 'utf8', 'hex');
 
-    res.cookie('accessToken', accessTk, {
-      httpOnly: true,
-      // secure: true,
-    });
+    // res.cookie('accessToken', accessTk, {
+    //   httpOnly: true,
+    //   secure: true,
+    // });
 
-    res.cookie('refreshToken', refreshTk, {
-      httpOnly: true,
-      // secure: true,
-    });
+    // res.cookie('refreshToken', refreshTk, {
+    //   httpOnly: true,
+    //   secure: true,
+    // });
+
+    res.setHeader('Authorization', `Bearer ${accessTk}`);
 
     res.status(200).json({ message: '로그인에 성공하였습니다.' });
   } catch (err) {
