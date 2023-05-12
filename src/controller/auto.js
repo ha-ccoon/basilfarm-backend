@@ -4,16 +4,18 @@ const db = new DB();
 let intervalId;
 
 // 자동 제어 요청 저장하기
-const saveAutoStatus = async (device_id, status, target_temp, target_moisture) => {
+const saveAutoStatus = async (req, res) => {
+  const { device_id } = req.params;
+  const { status, target_temp, target_moisture } = req.body;
   try {
-    const created_at = new Date();
     await db.insertAutoStatus({
-      device_id,
+      device_id: device_id,
       status,
       target_temp,
       target_moisture,
-      created_at,
+      created_at: new Date(),
     });
+    res.status(200).send('자동화 명령이 저장되었습니다.');
   } catch (err) {
     console.error(err);
   }
