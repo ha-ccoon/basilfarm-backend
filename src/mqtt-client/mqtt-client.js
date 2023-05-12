@@ -13,7 +13,7 @@ class MqttClient {
       if (!err) {
         console.log('## MQTT is connected');
       } else {
-        // console.log('Connection Error: ', err);
+        // console.log(`Connection Error from ${this._topics} :`, err);
       }
     });
   }
