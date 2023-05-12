@@ -2,7 +2,7 @@ import express from 'express';
 import signIn from '../controller/user/sign-in.js';
 import authAccessToken from '../middleware/loginAuth.js';
 import signUpUser from '../controller/user/sign-up.js';
-import { userInfo } from '../controller/user/user-db.js';
+import { userInfo } from '../controller/user/user.js';
 import signOut from '../controller/user/sign-out.js';
 
 const router = express.Router();

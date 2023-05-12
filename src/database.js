@@ -87,7 +87,7 @@ export default class DB {
   }
 
   // 유저 데이터 저장
-  async saveUser({ id, password, phone, email, fullname, picture }) {
+  async insertUser({ id, password, phone, email, fullname, picture }) {
     const sql = `INSERT INTO user
   (id, password, phone, email, fullname, picture) VALUES (?,?,?,?,?,?)`;
     const row = await this.pool.query(sql, [
@@ -103,11 +103,11 @@ export default class DB {
   }
 
   async deviceCheck(device_id) {
-    const result = await this.promisePool.query(
+    const sql = await this.pool.query(
       'SELECT * FROM devices WHERE device_id = ?',
       [device_id]
     );
-    return result;
+    return sql;
   }
 
   async insertDevice({
@@ -116,7 +116,7 @@ export default class DB {
     device_type,
     device_name,
   }) {
-    const result = await this.promisePool.query(
+    const sql = await this.pool.query(
       'INSERT INTO devices(device_id,device_macAddress,device_type,device_name) VALUES (?,?,?,?)',
       [
         data.device_id,
@@ -125,6 +125,6 @@ export default class DB {
         data.device_name,
       ]
     );
-    return result;
+    return { sql };
   }
 }

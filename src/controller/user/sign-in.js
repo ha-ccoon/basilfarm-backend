@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { findUser } from './user-db.js';
+import { findUser } from './user.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -32,7 +32,7 @@ const signIn = async (req, res, next) => {
 
     const refreshTk = jwt.sign(
       {
-        id: confirmId.id,
+        id: confirmId[0].id,
       },
       process.env.REFRESH_TOKEN_SECRET,
       {
@@ -41,24 +41,18 @@ const signIn = async (req, res, next) => {
       }
     );
 
-    // const encryptedAccessToken = crypto
-    //   .createCipher('aes-256-cbc', process.env.ACCESS_TOKEN_SECRET)
-    //   .update(accessTk, 'utf8', 'hex');
-    // const encryptedRefreshToken = crypto
-    //   .createCipher('aes-256-cbc', process.env.REFRESH_TOKEN_SECRET)
-    //   .update(refreshTk, 'utf8', 'hex');
+    if (!accessTk || !refreshTk) {
+      res.status(400).json({ message: '토큰이 발행되지 않았습니다.' });
+      next();
+    }
 
-    // res.cookie('accessToken', accessTk, {
-    //   httpOnly: true,
-    //   secure: true,
-    // });
+    res.cookie('accessToken', accessTk, {
+      httpOnly: true,
+      secure: false,
+    });
 
-    // res.cookie('refreshToken', refreshTk, {
-    //   httpOnly: true,
-    //   secure: true,
-    // });
-
-    res.setHeader('Authorization', `Bearer ${accessTk}`);
+    // res.setHeader('Authorization', `Bearer ${accessTk}`);
+    // res.setHeader('Authorization', `Bearer ${refreshTk}`);
 
     res.status(200).json({ message: '로그인에 성공하였습니다.' });
   } catch (err) {
