@@ -22,7 +22,7 @@ const userInfo = async (req, res) => {
     ]);
     res.json(row);
   } catch (err) {
-    throw Error();
+    throw new Error();
   }
 };
 

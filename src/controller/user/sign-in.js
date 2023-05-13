@@ -51,6 +51,11 @@ const signIn = async (req, res, next) => {
       secure: false,
     });
 
+    res.cookie('refreshToken', refreshTk, {
+      httpOnly: true,
+      secure: false,
+    });
+
     // res.setHeader('Authorization', `Bearer ${accessTk}`);
     // res.setHeader('Authorization', `Bearer ${refreshTk}`);
 
