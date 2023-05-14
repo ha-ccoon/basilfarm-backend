@@ -8,7 +8,7 @@ const signIn = async (req, res, next) => {
 
   // DB에 로그인 정보 확인
   const existedId = await findUser(id);
-  const confirmId = existedId.filter((data) => {
+  const confirmId = existedId.find((data) => {
     return id === data.id;
   });
 
@@ -18,7 +18,7 @@ const signIn = async (req, res, next) => {
   }
 
   try {
-    console.log('유저 아이디: ', confirmId[0].id);
+    console.log('유저 아이디: ', confirmId.id);
     const accessTk = jwt.sign(
       {
         id: confirmId[0].id,
@@ -32,7 +32,7 @@ const signIn = async (req, res, next) => {
 
     const refreshTk = jwt.sign(
       {
-        id: confirmId[0].id,
+        id: confirmId.id,
       },
       process.env.REFRESH_TOKEN_SECRET,
       {
@@ -55,9 +55,6 @@ const signIn = async (req, res, next) => {
       httpOnly: true,
       secure: false,
     });
-
-    // res.setHeader('Authorization', `Bearer ${accessTk}`);
-    // res.setHeader('Authorization', `Bearer ${refreshTk}`);
 
     res.status(200).json({ message: '로그인에 성공하였습니다.' });
   } catch (err) {

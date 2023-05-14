@@ -33,4 +33,16 @@ const getSensorDataByDeviceId = async (req, res) => {
   }
 };
 
-export { getSensorData, getSensorDataByDeviceId };
+const getMoistureData = async (req, res) => {
+  try {
+    const moisture = req.moisture;
+    const query = `SELECT * FROM sensor_history ORDER BY created_at DESC LIMIT 1`;
+    const [row] = await db.pool.query(query, [moisture]);
+    res.json(row);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+export { getSensorData, getSensorDataByDeviceId, getMoistureData };

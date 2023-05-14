@@ -68,4 +68,4 @@ const errorHandler = (err, req, res, next) => {
 
 app.use(errorHandler);
 
-export { getDBConnection, mqttClient };
+export { getDBConnection, mqttClient1, mqttClient };

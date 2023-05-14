@@ -16,7 +16,7 @@ const findUser = async (id) => {
 // 유저 정보 검색
 const userInfo = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const userId = req.id;
     const [row] = await db.pool.query('SELECT * FROM user WHERE id = ?', [
       userId,
     ]);
