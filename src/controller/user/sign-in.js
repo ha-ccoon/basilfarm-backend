@@ -19,9 +19,9 @@ const signIn = async (req, res, next) => {
 
   try {
     console.log('유저 아이디: ', confirmId.id);
-    const accessTk = jwt.sign(
+    const issueAccessToken = jwt.sign(
       {
-        id: confirmId[0].id,
+        id: confirmId.id,
       },
       process.env.ACCESS_TOKEN_SECRET,
       {
@@ -30,7 +30,7 @@ const signIn = async (req, res, next) => {
       }
     );
 
-    const refreshTk = jwt.sign(
+    const issueRefreshToken = jwt.sign(
       {
         id: confirmId.id,
       },
@@ -41,17 +41,12 @@ const signIn = async (req, res, next) => {
       }
     );
 
-    if (!accessTk || !refreshTk) {
-      res.status(400).json({ message: '토큰이 발행되지 않았습니다.' });
-      next();
-    }
-
-    res.cookie('accessToken', accessTk, {
+    res.cookie('accessToken', issueAccessToken, {
       httpOnly: true,
       secure: false,
     });
 
-    res.cookie('refreshToken', refreshTk, {
+    res.cookie('refreshToken', issueRefreshToken, {
       httpOnly: true,
       secure: false,
     });
