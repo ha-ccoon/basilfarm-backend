@@ -21,16 +21,18 @@ build_b:
 
 test_a:
   stage: test
-  only: dev
+  only: 
+    - dev
   script:
-    - echo "이 Job은 무언가를 테스트합니다."
+    - echo "test_a는 dev 브랜치만 테스트 합니다."
     - echo "빌드 단계의 모든 Job이 완료된 경우에만 실행됩니다."
 
 test_b:
   stage: test
-  only: main
+  only: 
+    - main
   script:
-    - echo "이 Job은 다른 무언가를 테스트합니다."
-    - echo "이 Job도 빌드 단계의 모든 Job이 완료된 경우에만 실행됩니다."
+    - echo "test_b는 main 브랜치만 테스트 합니다."
+    - echo "이 Job은 빌드 단계의 모든 Job이 완료된 경우에만 실행됩니다."
     - echo "test_a와 거의 동시에 시작됩니다."
     - sleep 5
