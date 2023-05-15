@@ -14,12 +14,12 @@ const signUpUser = async (req, res, next) => {
     const existedId = await findUser(id);
     const confirmId = existedId.filter((data) => data.id === id);
     if (!confirmId) {
-      return res.status(200).json({ message: '사용 가능한 아이디 입니다.' });
+      res.status(200).json({ message: '사용 가능한 아이디 입니다.' });
     }
 
     // password
     if (!condition.test(password)) {
-      return res.status(400).json({
+      res.status(400).json({
         message:
           '비밀번호는 영문자, 숫자, 특수문자를 포함하여 총 8 ~ 16 자리여야 합니다.',
       });
@@ -28,7 +28,7 @@ const signUpUser = async (req, res, next) => {
     const salt = bcrypt.genSaltSync(saltRound);
     const hashedPassword = bcrypt.hashSync(password, salt);
 
-    await db.saveUser({
+    await db.insertUser({
       id,
       password: hashedPassword,
       email,

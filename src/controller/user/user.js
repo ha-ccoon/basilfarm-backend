@@ -9,7 +9,7 @@ const findUser = async (id) => {
     return row;
   } catch (err) {
     console.log(err);
-    throw new Error();
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
@@ -22,7 +22,7 @@ const userInfo = async (req, res) => {
     ]);
     res.json(row);
   } catch (err) {
-    throw new Error();
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
