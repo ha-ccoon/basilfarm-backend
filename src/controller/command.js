@@ -3,20 +3,17 @@ import { mqttClient } from '../app.js';
 export const commandCallback = async (req, res, next) => {
   const { command, actuator, target_moisture } = req.body;
   const { device_id } = req.params;
-  mqttClient.connect();
+  const mqttConnection = mqttClient.connect();
 
   try {
     if (!device_id || device_id === '') {
       res.status(400).json({ message: 'device_id가 등록되지 않았습니다.' });
-      next();
     }
     if (!command || command === '') {
       res.status(400).json({ message: 'command가 등록되지 않았습니다.' });
-      next();
     }
     if (!actuator || actuator === '') {
       res.status(400).json({ message: 'actuator가 등록되지 않았습니다. ' });
-      next();
     }
 
     // 일반 디바이스 명령
