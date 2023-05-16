@@ -7,19 +7,19 @@ const condition = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/;
 
 const signUpUser = async (req, res, next) => {
   try {
-    const { id, password, email, phone, fullname } = req.body;
+    const { id, password, email, phone, fullname, device_id } = req.body;
     const db = getDBConnection();
 
     // id 중복 검사
     const existedId = await findUser(id);
     const confirmId = existedId.filter((data) => data.id === id);
     if (!confirmId) {
-      return res.status(200).json({ message: '사용 가능한 아이디 입니다.' });
+      res.status(200).json({ message: '사용 가능한 아이디 입니다.' });
     }
 
     // password
     if (!condition.test(password)) {
-      return res.status(400).json({
+      res.status(400).json({
         message:
           '비밀번호는 영문자, 숫자, 특수문자를 포함하여 총 8 ~ 16 자리여야 합니다.',
       });
@@ -28,12 +28,13 @@ const signUpUser = async (req, res, next) => {
     const salt = bcrypt.genSaltSync(saltRound);
     const hashedPassword = bcrypt.hashSync(password, salt);
 
-    await db.saveUser({
+    await db.insertUser({
       id,
       password: hashedPassword,
       email,
       phone,
       fullname,
+      device_id,
     });
 
     res.status(200).json({ message: '유저 정보가 생성되었습니다.' });

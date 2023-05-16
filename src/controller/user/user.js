@@ -9,20 +9,20 @@ const findUser = async (id) => {
     return row;
   } catch (err) {
     console.log(err);
-    throw new Error();
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
 // 유저 정보 검색
 const userInfo = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const userId = req.id;
     const [row] = await db.pool.query('SELECT * FROM user WHERE id = ?', [
       userId,
     ]);
     res.json(row);
   } catch (err) {
-    throw new Error();
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
