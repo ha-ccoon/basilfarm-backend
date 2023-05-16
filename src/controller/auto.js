@@ -4,6 +4,7 @@ import { mqttClient } from '../app.js';
 const db = new DB();
 const setIntervalMap = new Map();
 
+//api/auto/:device_id/status
 // 자동 제어 상태 가져오기
 const currentAutoManagementStatus = async (req, res) => {
   const { device_id } = req.params;
@@ -18,6 +19,7 @@ const currentAutoManagementStatus = async (req, res) => {
   }
 };
 
+//api/auto/:device_id
 // 자동 제어 요청 저장하기
 const saveAutoStatus = async (req, res, next) => {
   const { device_id } = req.params;
@@ -38,6 +40,7 @@ const saveAutoStatus = async (req, res, next) => {
   }
 };
 
+//api/auto/:device_id
 // 자동화 ON/OFF 구분 후 시행
 const autoManagement = async (req, res) => {
   const { device_id } = req.params;
