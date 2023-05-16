@@ -7,5 +7,3 @@ router.post('/:device_id', saveAutoStatus,autoManagement);
 router.get('/:device_id/status', currentAutoManagementStatus);
 
 export default router;
-
-// saveAutoStatus
