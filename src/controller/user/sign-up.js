@@ -7,7 +7,7 @@ const condition = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/;
 
 const signUpUser = async (req, res, next) => {
   try {
-    const { id, password, email, phone, fullname } = req.body;
+    const { id, password, email, phone, fullname, device_id } = req.body;
     const db = getDBConnection();
 
     // id 중복 검사
@@ -34,6 +34,7 @@ const signUpUser = async (req, res, next) => {
       email,
       phone,
       fullname,
+      device_id,
     });
 
     res.status(200).json({ message: '유저 정보가 생성되었습니다.' });
