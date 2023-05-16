@@ -111,11 +111,9 @@ export default class DB {
   }
 
   async deviceCheck(device_id) {
-    const sql = await this.pool.query(
-      'SELECT * FROM devices WHERE device_id = ?',
-      [device_id]
-    );
-    return sql;
+    const sql = 'SELECT * FROM device WHERE device_id = ?';
+    const row = await this.pool.query(sql, [device_id]);
+    return { row };
   }
 
   async insertDevice({
@@ -123,16 +121,17 @@ export default class DB {
     device_macAddress,
     device_type,
     device_name,
+    picture,
   }) {
-    const sql = await this.pool.query(
-      'INSERT INTO devices(device_id,device_macAddress,device_type,device_name) VALUES (?,?,?,?)',
-      [
-        data.device_id,
-        data.device_macAddress,
-        data.device_type,
-        data.device_name,
-      ]
-    );
-    return { sql };
+    const sql =
+      'INSERT INTO device(device_id,device_macAddress,device_type,device_name, picture) VALUES (?,?,?,?,?)';
+    const row = await this.pool.query(sql, [
+      device_id,
+      device_macAddress,
+      device_type,
+      device_name,
+      picture,
+    ]);
+    return { row };
   }
 }
