@@ -52,7 +52,7 @@ export default class DB {
   // }) {
   //   const formattedCreatedAt = new Date(created_at).toISOString().slice(0, 19).replace('T', ' ');
 
-  //   const sql = 
+  //   const sql =
   //     `INSERT INTO auto_status (device_id, status, target_temp, target_moisture, target_light, created_at)
   //     VALUES (${this.pool.escape(device_id)}, ${this.pool.escape(status)}, ${this.pool.escape(target_temp)}, ${this.pool.escape(target_moisture)}, ${this.pool.escape(target_light)}, '${formattedCreatedAt}')
   //     ON DUPLICATE KEY UPDATE status = ${status}, target_temp = ${target_temp}, target_moisture = ${target_moisture}, target_light = ${target_light}, created_at = '${formattedCreatedAt}';`
@@ -86,9 +86,17 @@ export default class DB {
   }
 
   // 유저 데이터 저장
-  async insertUser({ id, password, phone, email, fullname, picture }) {
+  async insertUser({
+    id,
+    password,
+    phone,
+    email,
+    fullname,
+    picture,
+    device_id,
+  }) {
     const sql = `INSERT INTO user
-  (id, password, phone, email, fullname, picture) VALUES (?,?,?,?,?,?)`;
+  (id, password, phone, email, fullname, picture, device_id) VALUES (?,?,?,?,?,?,?)`;
     const row = await this.pool.query(sql, [
       id,
       password,
@@ -96,6 +104,7 @@ export default class DB {
       email,
       fullname,
       picture,
+      device_id,
     ]);
 
     return { row };

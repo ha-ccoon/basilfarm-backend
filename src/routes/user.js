@@ -3,7 +3,8 @@ import signIn from '../controller/user/sign-in.js';
 import signUpUser from '../controller/user/sign-up.js';
 import { userInfo } from '../controller/user/user.js';
 import signOut from '../controller/user/sign-out.js';
-import verifyToken from '../middleware/login-auth.js';
+import { verifyAccessToken } from '../middleware/verify-token.js';
+// import { loginAuth } from '../middleware/login-auth.js';
 
 const router = express.Router();
 
@@ -14,9 +15,9 @@ router.post('/sign_in', signIn);
 router.post('/sign_up', signUpUser);
 
 // 유저 정보
-router.get('/sign_in/my_page', verifyToken, userInfo);
+router.get('/sign_in/my_page', verifyAccessToken, userInfo);
 
 // 로그아웃
-router.get('/sign_out', verifyToken, signOut);
+router.get('/sign_out', verifyAccessToken, signOut);
 
 export default router;
