@@ -41,7 +41,7 @@ class MqttClient {
   async sendCommand(topic, message, err) {
     if (!err) {
       this._client.publish(topic, JSON.stringify(message));
-      console.log('배포 명령이 전송 되었습니다.');
+      console.log('제어 명령이 전송 되었습니다.');
     } else {
       console.log('Publish Error: ', err);
     }

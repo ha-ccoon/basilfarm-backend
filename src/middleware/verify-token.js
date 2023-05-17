@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
 
 export const verifyAccessToken = (req, res, next) => {
-  const accessToken = req.headers.authorization?.split(' ')[1];
+  const accessToken = req.cookies.accessToken;
+  console.log('로그인 인증방식: ', req.cookies);
   if (!accessToken) {
     res.status(401).json({ message: 'AccessToken이 존재하지 않습니다.' });
   }
