@@ -1,13 +1,14 @@
 import jwt from 'jsonwebtoken';
-import { findUser } from './user.js';
+import { findId } from './user.js';
+import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 dotenv.config();
 
 const signIn = async (req, res, next) => {
-  const { id } = req.body;
+  const { id, password } = req.body;
 
-  // DB에 로그인 정보 확인
-  const existedId = await findUser(id);
+  // 아이디 확인
+  const existedId = await findId(id);
   const confirmId = existedId.find((data) => {
     return id === data.id;
   });
@@ -16,6 +17,16 @@ const signIn = async (req, res, next) => {
     res.status(403).json({ message: '존재 하지 않는 아이디입니다.' });
     next();
   }
+
+  // 비밀번호 확인
+  // const existedPassword = await findPassword(password);
+  // const unHashedPassword = bcrypt.compareSync(existedPassword, hash);
+  // console.log(unHashedPassword);
+
+  // if (!confirmPassword) {
+  //   res.status(403).json({ message: '잘못된 비밀번호 입니다.' });
+  //   next();
+  // }
 
   try {
     console.log('유저 아이디: ', confirmId.id);
