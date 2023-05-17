@@ -81,7 +81,7 @@ export default class DB {
     created_at,
   }) {
     const sql = `INSERT INTO actuator_config 
-  (idx, device_id, pump, led, fan, peltier, created_at) VALUES (?,?,?,?,?,?,?)`;
+  idx, device_id, pump, led, fan, peltier, created_at) VALUES (?,?,?,?,?,?,?)`;
     const row = await this.pool.query(sql, [
       idx,
       device_id,

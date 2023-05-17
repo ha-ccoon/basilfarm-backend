@@ -30,23 +30,7 @@ const signIn = async (req, res, next) => {
       }
     );
 
-    const issueRefreshToken = jwt.sign(
-      {
-        id: confirmId.id,
-      },
-      process.env.REFRESH_TOKEN_SECRET,
-      {
-        expiresIn: process.env.REFRESH_EXPIRES_IN,
-        issuer: 'basilfarm',
-      }
-    );
-
     res.cookie('accessToken', issueAccessToken, {
-      httpOnly: true,
-      secure: false,
-    });
-
-    res.cookie('refreshToken', issueRefreshToken, {
       httpOnly: true,
       secure: false,
     });
