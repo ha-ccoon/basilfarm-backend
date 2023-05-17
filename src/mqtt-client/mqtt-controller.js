@@ -1,4 +1,4 @@
-// import MqttClient from './mqtt-client.js';
+import { mqttClient } from '../app.js';
 import { getDBConnection } from '../app.js';
 
 const initialPubTopic = 'initialResponse';
@@ -8,14 +8,14 @@ const setInitialSubTopic = async (topic, message) => {
     const db = getDBConnection();
     mqttClient.connect();
     const deviceInfo = JSON.parse(message);
-    console.log('data', deviceInfo);
     const result = await db.deviceCheck(deviceInfo.device_id);
 
     if (result[0].length === 0) {
       await db.insertDevice(deviceInfo);
       await mqttClient.sendCommand(initialPubTopic, {
         sensor: `data/${deviceInfo.device_id}/#`,
-        actuator: `control/${deviceInfo.device_id}/#`,
+        cmd: `cmd/${deviceInfo.device_id}/#`,
+        state: `state/${deviceInfo.device_id}/#`,
       });
       console.log('initial Response sent');
       return;
@@ -24,7 +24,8 @@ const setInitialSubTopic = async (topic, message) => {
       console.log('result[0]', result[0]);
       await mqttClient.sendCommand(initialPubTopic, {
         sensor: `data/${deviceInfo.device_id}/#`,
-        actuator: `cmd/${deviceInfo.device_id}/#`,
+        cmd: `cmd/${deviceInfo.device_id}/#`,
+        state: `state/${deviceInfo.device_id}/#`,
       });
       console.log('initial Response sent');
       return;

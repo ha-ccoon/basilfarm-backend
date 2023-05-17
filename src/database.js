@@ -41,28 +41,34 @@ export default class DB {
     return { row };
   }
 
-// 자동 제어 상태 저장
-async insertAutoStatus({
-  device_id,
-  status,
-  target_temp,
-  target_moisture,
-  target_light,
-}) {
-  const currentDate = new Date();
-  const koreaOffset = 9 * 60; // 한국 표준시 UTC+9의 오프셋 (분 단위)
-  currentDate.setMinutes(currentDate.getMinutes() + koreaOffset); // 현재 시간에 한국 표준시 오프셋을 추가
+  // 자동 제어 상태 저장
+  async insertAutoStatus({
+    device_id,
+    status,
+    target_temp,
+    target_moisture,
+    target_light,
+  }) {
+    const currentDate = new Date();
+    const koreaOffset = 9 * 60; // 한국 표준시 UTC+9의 오프셋 (분 단위)
+    currentDate.setMinutes(currentDate.getMinutes() + koreaOffset); // 현재 시간에 한국 표준시 오프셋을 추가
 
-  const formattedCreatedAt = currentDate.toISOString().slice(0, 19).replace('T', ' ');
+    const formattedCreatedAt = currentDate
+      .toISOString()
+      .slice(0, 19)
+      .replace('T', ' ');
 
-  const sql = 
-    `INSERT INTO auto_status (device_id, status, target_temp, target_moisture, target_light, created_at)
-    VALUES (${this.pool.escape(device_id)}, ${this.pool.escape(status)}, ${this.pool.escape(target_temp)}, ${this.pool.escape(target_moisture)}, ${this.pool.escape(target_light)}, '${formattedCreatedAt}')
+    const sql = `INSERT INTO auto_status (device_id, status, target_temp, target_moisture, target_light, created_at)
+    VALUES (${this.pool.escape(device_id)}, ${this.pool.escape(
+      status
+    )}, ${this.pool.escape(target_temp)}, ${this.pool.escape(
+      target_moisture
+    )}, ${this.pool.escape(target_light)}, '${formattedCreatedAt}')
     ON DUPLICATE KEY UPDATE status = ${status}, target_temp = ${target_temp}, target_moisture = ${target_moisture}, target_light = ${target_light}, created_at = '${formattedCreatedAt}';`;
 
-  const [rows] = await this.pool.query(sql);
-  return rows;
-}
+    const [rows] = await this.pool.query(sql);
+    return rows;
+  }
 
   // actuator 현재 상태 데이터 저장
   async insertActuatorConfig({
@@ -85,7 +91,7 @@ async insertAutoStatus({
       peltier,
       created_at,
     ]);
-    return { row };
+    return row;
   }
 
   // 유저 데이터 저장
@@ -114,9 +120,13 @@ async insertAutoStatus({
   }
 
   async deviceCheck(device_id) {
-    const sql = 'SELECT * FROM device WHERE device_id = ?';
-    const row = await this.pool.query(sql, [device_id]);
-    return { row };
+    try {
+      const sql = 'SELECT * FROM device WHERE device_id = ?';
+      const row = await this.pool.query(sql, [device_id]);
+      return row;
+    } catch (err) {
+      return 'hello devicecheck';
+    }
   }
 
   async insertDevice({
