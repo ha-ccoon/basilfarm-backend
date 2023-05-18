@@ -13,6 +13,6 @@ export const verifyAccessToken = (req, res, next) => {
   );
 
   req.id = confirmAccess.id;
-  console.log('access: ', accessToken, confirmAccess);
+  console.log('access: ', accessToken, confirmAccess.id);
   next();
 };

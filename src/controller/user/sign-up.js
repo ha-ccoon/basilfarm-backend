@@ -5,7 +5,7 @@ import { getDBConnection } from '../../app.js';
 const saltRound = 10;
 const condition = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/;
 
-const signUpUser = async (req, res, next) => {
+const signUp = async (req, res, next) => {
   try {
     const { id, password, email, phone, fullname, device_id } = req.body;
     const db = getDBConnection();
@@ -44,4 +44,4 @@ const signUpUser = async (req, res, next) => {
   }
 };
 
-export default signUpUser;
+export default signUp;

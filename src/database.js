@@ -1,5 +1,6 @@
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
+// import { convertToInsertQuery } from './controller/dummy.js';
 dotenv.config();
 
 export default class DB {
@@ -146,5 +147,18 @@ export default class DB {
       picture,
     ]);
     return { row };
+  }
+
+  async insertData(data) {
+    console.log('더미 데이터: ', data);
+    try {
+      const sql =
+        'INSERT INTO test (idx, device_id, temp, humidity, light, moisture, water_level, created_at) VALUES ?';
+      const [row] = await this.pool.query(sql, [data]);
+      return { row };
+      console.log('data inserted');
+    } catch (err) {
+      console.log('Inserting dummy data failed: ', err);
+    }
   }
 }
