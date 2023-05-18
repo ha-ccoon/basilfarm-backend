@@ -41,10 +41,7 @@ const signIn = async (req, res, next) => {
       }
     );
 
-    res.cookie('accessToken', issueAccessToken, {
-      httpOnly: true,
-      secure: false,
-    });
+    res.cookie('accessToken', issueAccessToken);
 
     res.status(200).json({ message: '로그인에 성공하였습니다.' });
   } catch (err) {
