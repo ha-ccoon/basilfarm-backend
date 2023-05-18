@@ -1,6 +1,6 @@
 import * as mqtt from 'mqtt';
 
-class MqttSetup {
+class MqttClient {
   constructor(options, topics) {
     this._options = options;
     this._topics = topics;
@@ -13,7 +13,7 @@ class MqttSetup {
       if (!err) {
         console.log('## MQTT is connected');
       } else {
-        console.log('Connection Error: ', err);
+        // console.log(`Connection Error from ${this._topics} :`, err);
       }
     });
   }
@@ -28,21 +28,22 @@ class MqttSetup {
     });
   }
 
-  // 서버 => 디바이스
-  sendCommand(topic, message, err) {
-    if (!err) {
-      this._client.publish(this._topic, JSON.stringify(message));
-    } else {
-      console.log('Publish Error: ', err);
-    }
-  }
-
   // 디바이스 => 데이터베이스
   receiveMessage(callback, err) {
     if (!err) {
       this._client.on('message', callback);
     } else {
       console.log('Receiving Message Error: ', err);
+    }
+  }
+
+  // 서버 => 디바이스
+  async sendCommand(topic, message, err) {
+    if (!err) {
+      this._client.publish(topic, JSON.stringify(message));
+      console.log('제어 명령이 전송 되었습니다.');
+    } else {
+      console.log('Publish Error: ', err);
     }
   }
 
@@ -54,4 +55,4 @@ class MqttSetup {
   }
 }
 
-export default MqttSetup;
+export default MqttClient;

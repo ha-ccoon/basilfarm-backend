@@ -1,0 +1,56 @@
+import jwt from 'jsonwebtoken';
+import { findId } from './user.js';
+import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const signIn = async (req, res, next) => {
+  const { id, password } = req.body;
+
+  // 아이디 확인
+  const existedId = await findId(id);
+  const confirmId = existedId.find((data) => {
+    return id === data.id;
+  });
+
+  if (!confirmId) {
+    res.status(403).json({ message: '존재 하지 않는 아이디입니다.' });
+    next();
+  }
+
+  // 비밀번호 확인
+  // const existedPassword = await findPassword(password);
+  // const unHashedPassword = bcrypt.compareSync(existedPassword, hash);
+  // console.log(unHashedPassword);
+
+  // if (!confirmPassword) {
+  //   res.status(403).json({ message: '잘못된 비밀번호 입니다.' });
+  //   next();
+  // }
+
+  try {
+    console.log('유저 아이디: ', confirmId.id);
+    const issueAccessToken = jwt.sign(
+      {
+        id: confirmId.id,
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: process.env.ACCESS_EXPIRES_IN,
+        issuer: 'basilfarm',
+      }
+    );
+
+    res.cookie('accessToken', issueAccessToken, {
+      httpOnly: true,
+      secure: false,
+    });
+
+    res.status(200).json({ message: '로그인에 성공하였습니다.' });
+  } catch (err) {
+    res.status(401).json({ message: '로그인에 실패하였습니다.' });
+    next();
+  }
+};
+
+export default signIn;

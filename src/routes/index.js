@@ -1,22 +1,18 @@
 import express from 'express';
-import actuatorRouter from './actuatorRouter.js';
-import sensorRouter from './sensorRouter.js';
-import realtimeRouter from './realtimeRouter.js';
-import userRouter from './userRouter.js';
-
 const router = express.Router();
 
-router.use('/realtime', realtimeRouter);
+import actuatorRouter from './actuator.js';
+import sensorRouter from './sensor.js';
+import userRouter from './user.js';
+import autoRouter from './auto.js';
+import commandRouter from './command.js';
+import deviceRouter from './device.js';
+
 router.use('/sensors', sensorRouter);
 router.use('/actuators', actuatorRouter);
-router.use('/actuators/pump', actuatorRouter);
-router.use('/actuators/led', actuatorRouter);
-router.use('/actuators/fan', actuatorRouter);
 router.use('/user', userRouter);
-
-// websocket 확인용
-router.use('/wss', (req, res) => {
-  res.render('wss');
-});
+router.use('/auto', autoRouter);
+router.use('/command', commandRouter);
+router.use('/device', deviceRouter);
 
 export default router;
