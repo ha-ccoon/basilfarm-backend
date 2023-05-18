@@ -153,7 +153,7 @@ export default class DB {
     console.log('더미 데이터: ', data);
     try {
       const sql =
-        'INSERT INTO test (idx, device_id, temp, humidity, light, moisture, water_level, created_at) VALUES ?';
+        'INSERT INTO sensor_history (idx, device_id, temp, humidity, light, moisture, water_level, created_at) VALUES ?';
       const [row] = await this.pool.query(sql, [data]);
       return { row };
       console.log('data inserted');
