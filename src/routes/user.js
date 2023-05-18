@@ -4,7 +4,6 @@ import signUp from '../controller/user/sign-up.js';
 import { userInfo } from '../controller/user/user.js';
 import signOut from '../controller/user/sign-out.js';
 import { verifyAccessToken } from '../middleware/verify-token.js';
-// import { loginAuth } from '../middleware/login-auth.js';
 
 const router = express.Router();
 
