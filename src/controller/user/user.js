@@ -15,19 +15,6 @@ const findId = async (id) => {
   }
 };
 
-// 유저 검색
-// const findPassword = async (password) => {
-//   try {
-//     const [row] = await db.pool.query('SELECT * FROM user WHERE password = ?', [
-//       password,
-//     ]);
-//     return row;
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ message: 'Internal Server Error' });
-//   }
-// };
-
 // 유저 정보 검색
 const userInfo = async (req, res) => {
   try {
@@ -38,7 +25,9 @@ const userInfo = async (req, res) => {
     );
     res.json(row);
   } catch (err) {
-    res.status(500).json({ message: 'Internal Server Error' });
+    res
+      .status(500)
+      .json({ message: '데이터베이스에서 정보를 가져오는 것을 실패했습니다.' });
   }
 };
 

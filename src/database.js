@@ -49,23 +49,15 @@ export default class DB {
     target_temp,
     target_moisture,
     target_light,
+    created_at,
   }) {
-    const currentDate = new Date();
-    const koreaOffset = 9 * 60; // 한국 표준시 UTC+9의 오프셋 (분 단위)
-    currentDate.setMinutes(currentDate.getMinutes() + koreaOffset); // 현재 시간에 한국 표준시 오프셋을 추가
-
-    const formattedCreatedAt = currentDate
-      .toISOString()
-      .slice(0, 19)
-      .replace('T', ' ');
-
     const sql = `INSERT INTO auto_status (device_id, status, target_temp, target_moisture, target_light, created_at)
     VALUES (${this.pool.escape(device_id)}, ${this.pool.escape(
       status
     )}, ${this.pool.escape(target_temp)}, ${this.pool.escape(
       target_moisture
-    )}, ${this.pool.escape(target_light)}, '${formattedCreatedAt}')
-    ON DUPLICATE KEY UPDATE status = ${status}, target_temp = ${target_temp}, target_moisture = ${target_moisture}, target_light = ${target_light}, created_at = '${formattedCreatedAt}';`;
+    )}, ${this.pool.escape(target_light)}, ${this.pool.escape(created_at)})
+    ON DUPLICATE KEY UPDATE status = ${status}, target_temp = ${target_temp}, target_moisture = ${target_moisture}, target_light = ${target_light}, created_at = ${created_at};`;
 
     const [rows] = await this.pool.query(sql);
     return rows;
@@ -104,9 +96,10 @@ export default class DB {
     fullname,
     picture,
     device_id,
+    created_at,
   }) {
     const sql = `INSERT INTO user
-  (id, password, phone, email, fullname, picture, device_id) VALUES (?,?,?,?,?,?,?)`;
+  (id, password, phone, email, fullname, picture, device_id, created_at) VALUES (?,?,?,?,?,?,?,?)`;
     const row = await this.pool.query(sql, [
       id,
       password,
@@ -115,6 +108,7 @@ export default class DB {
       fullname,
       picture,
       device_id,
+      created_at,
     ]);
 
     return { row };
@@ -126,7 +120,7 @@ export default class DB {
       const row = await this.pool.query(sql, [device_id]);
       return row;
     } catch (err) {
-      return 'hello devicecheck';
+      return 'Device is not provided';
     }
   }
 
@@ -147,18 +141,5 @@ export default class DB {
       picture,
     ]);
     return { row };
-  }
-
-  async insertData(data) {
-    console.log('더미 데이터: ', data);
-    try {
-      const sql =
-        'INSERT INTO sensor_history (idx, device_id, temp, humidity, light, moisture, water_level, created_at) VALUES ?';
-      const [row] = await this.pool.query(sql, [data]);
-      return { row };
-      console.log('data inserted');
-    } catch (err) {
-      console.log('Inserting dummy data failed: ', err);
-    }
   }
 }
