@@ -1,19 +1,23 @@
-import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
+import mysql from 'mysql2/promise';
 // import { convertToInsertQuery } from './controller/dummy.js';
 dotenv.config();
 
 export default class DB {
+  pool = undefined;
+
   constructor() {
-    this.pool = mysql.createPool({
-      host: process.env.MYSQL_HOST,
-      user: process.env.MYSQL_USER,
-      password: process.env.MYSQL_PASSWORD,
-      database: process.env.MYSQL_DATABASE,
-      port: process.env.MYSQL_PORT,
-      waitForConnections: true,
-      queueLimit: 0,
-    });
+    if (this.pool === undefined) {
+      this.pool = mysql.createPool({
+        host: process.env.MYSQL_HOST,
+        user: process.env.MYSQL_USER,
+        password: process.env.MYSQL_PASSWORD,
+        database: process.env.MYSQL_DATABASE,
+        port: process.env.MYSQL_PORT,
+        waitForConnections: true,
+        queueLimit: 0,
+      });
+    }
   }
 
   // sensor 데이터 저장
