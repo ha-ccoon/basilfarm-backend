@@ -28,15 +28,6 @@ class MqttClient {
     });
   }
 
-  // 디바이스 => 데이터베이스
-  receiveMessage(callback, err) {
-    if (!err) {
-      this._client.on('message', callback);
-    } else {
-      console.log('Receiving Message Error: ', err);
-    }
-  }
-
   // 서버 => 디바이스
   async sendCommand(topic, message, err) {
     if (!err) {
@@ -44,6 +35,15 @@ class MqttClient {
       console.log('제어 명령이 전송 되었습니다.');
     } else {
       console.log('Publish Error: ', err);
+    }
+  }
+
+  // 디바이스 => 데이터베이스
+  receiveMessage(callback, err) {
+    if (!err) {
+      this._client.on('message', callback);
+    } else {
+      console.log('Receiving Message Error: ', err);
     }
   }
 

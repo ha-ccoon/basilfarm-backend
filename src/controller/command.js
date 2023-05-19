@@ -1,9 +1,18 @@
-import { mqttClient } from '../app.js';
+import MqttClient from '../mqtt-client/mqtt-client.js';
+
+const mqttOptions = {
+  host: process.env.MQTT_HOST,
+  port: process.env.MQTT_PORT,
+  username: process.env.MQTT_USERNAME,
+  password: process.env.MQTT_PASSWORD,
+};
+
+const mqttClient = new MqttClient(mqttOptions);
+mqttClient.connect();
 
 export const commandCallback = async (req, res, next) => {
   const { command, actuator } = req.body;
   const { device_id } = req.params;
-  mqttClient.connect();
 
   try {
     if (!device_id || device_id === '') {
@@ -17,7 +26,7 @@ export const commandCallback = async (req, res, next) => {
     }
 
     // 일반 디바이스 명령
-    mqttClient.sendCommand(`cmd/${device_id}/${actuator}`, {
+    await mqttClient.sendCommand(`cmd/${device_id}/${actuator}`, {
       command,
     });
 
