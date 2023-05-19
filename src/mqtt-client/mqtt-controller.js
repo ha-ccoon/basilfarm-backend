@@ -13,9 +13,9 @@ const setInitialSubTopic = async (topic, message) => {
     if (result[0].length === 0) {
       await db.insertDevice(deviceInfo);
       await mqttClient.sendCommand(initialPubTopic, {
-        sensor: `data/${deviceInfo.device_id}/#`,
+        sensor: `data/${deviceInfo.device_id}/data`,
+        state: `state/${deviceInfo.device_id}/data`,
         cmd: `cmd/${deviceInfo.device_id}/#`,
-        state: `state/${deviceInfo.device_id}/#`,
       });
       console.log('initial Response sent');
       return;

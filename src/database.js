@@ -124,20 +124,13 @@ export default class DB {
     }
   }
 
-  async insertDevice({
-    device_id,
-    device_macAddress,
-    device_type,
-    device_name,
-    picture,
-  }) {
+  async insertDevice({ device_id, device_macAddress, device_type, picture }) {
     const sql =
-      'INSERT INTO device(device_id,device_macAddress,device_type,device_name, picture) VALUES (?,?,?,?,?)';
+      'INSERT INTO device(device_id,device_macAddress,device_type, picture) VALUES (?,?,?,?)';
     const row = await this.pool.query(sql, [
       device_id,
       device_macAddress,
       device_type,
-      device_name,
       picture,
     ]);
     return { row };
