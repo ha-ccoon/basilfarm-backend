@@ -1,4 +1,4 @@
-import { mqttClient } from '../app.js';
+// import { mqttClient } from '../app.js';
 import { getDBConnection } from '../app.js';
 
 const initialPubTopic = 'initialResponse';
@@ -36,15 +36,16 @@ const setInitialSubTopic = async (topic, message) => {
 };
 
 const messageCallback = async (topic, message) => {
+  const db = getDBConnection();
   console.log(topic, message.toString());
   // 토픽 인식하기
   const topicType = topic.split('/')[0];
   const messageJson = JSON.parse(message);
+  console.log('topic:', topicType);
 
   try {
     switch (topicType) {
       case 'data':
-        const db = getDBConnection();
         await db.insertSensorHistory({
           idx: messageJson.idx,
           device_id: messageJson.device_id,
@@ -68,7 +69,6 @@ const messageCallback = async (topic, message) => {
           created_at: messageJson.created_at,
         });
         break;
-
       default:
         console.log("This topic isn't assigned");
         break;

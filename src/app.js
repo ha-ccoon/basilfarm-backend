@@ -44,26 +44,42 @@ const mqttOptions = {
 
 const initialSubTopic = 'initialCheck';
 
-const mqttClient = new MqttClient(mqttOptions, initialSubTopic);
+// const mqttClient = new MqttClient(mqttOptions, initialSubTopic);
+// mqttClient.connect();
+// mqttClient.subscribe();
+// mqttClient.receiveMessage(setInitialSubTopic);
+// mqttClient.receiveMessage(messageCallback);
+
+const mqttClient = new MqttClient(mqttOptions, [
+  'data/B48A0A75ADA0/#',
+  'state/B48A0A75ADA0/#',
+  'cmd/B48A0A75ADA0/#',
+]);
 mqttClient.connect();
 mqttClient.subscribe();
-mqttClient.receiveMessage(setInitialSubTopic);
 mqttClient.receiveMessage(messageCallback);
 
-const mqttClient1 = new MqttClient(mqttOptions, 'data/B48A0A75ADA0/#');
-mqttClient1.connect();
-mqttClient1.subscribe();
-mqttClient1.receiveMessage(messageCallback);
+// const mqttClient1 = new MqttClient(mqttOptions);
+// mqttClient1.connect();
+// mqttClient1.subscribe('data/B48A0A75ADA0/#');
+// mqttClient1.receiveMessage(messageCallback);
+// mqttClient1.error();
 
-const mqttClient2 = new MqttClient(mqttOptions, 'data/C049EFF91418/#');
-mqttClient2.connect();
-mqttClient2.subscribe();
-mqttClient2.receiveMessage(messageCallback);
+// const mqttClient2 = new MqttClient(mqttOptions);
+// mqttClient2.connect();
+// mqttClient2.subscribe('state/B48A0A75ADA0/data');
+// mqttClient2.receiveMessage(messageCallback);
+// mqttClient2.error();
+
+// const mqttClient3 = new MqttClient(mqttOptions);
+// mqttClient3.connect();
+// mqttClient3.subscribe('cmd/B48A0A75ADA0/#');
+// mqttClient3.receiveMessage(messageCallback);
+// mqttClient3.error();
 
 // MySQL connection 실행
 const getDBConnection = () => {
   const db = new DB();
-  console.log(db);
   return db;
 };
 
@@ -74,4 +90,4 @@ const errorHandler = (err, req, res, next) => {
 
 app.use(errorHandler);
 
-export { getDBConnection, mqttClient1, mqttClient };
+export { getDBConnection, mqttClient };
