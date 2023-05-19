@@ -50,21 +50,26 @@ mqttClient.subscribe();
 mqttClient.receiveMessage(setInitialSubTopic);
 mqttClient.receiveMessage(messageCallback);
 
-const mqttClient1 = new MqttClient(mqttOptions, 'data/unit001/#');
+const mqttClient1 = new MqttClient(mqttOptions, 'data/B48A0A75ADA0/#');
 mqttClient1.connect();
 mqttClient1.subscribe();
 mqttClient1.receiveMessage(messageCallback);
 
+const mqttClient2 = new MqttClient(mqttOptions, 'data/C049EFF91418/#');
+mqttClient2.connect();
+mqttClient2.subscribe();
+mqttClient2.receiveMessage(messageCallback);
+
 // MySQL connection 실행
 const getDBConnection = () => {
   const db = new DB();
+  console.log(db);
   return db;
 };
 
 const errorHandler = (err, req, res, next) => {
   console.log(err);
   res.status(500).json({ message: 'Internal Server Error' });
-  
 };
 
 app.use(errorHandler);
