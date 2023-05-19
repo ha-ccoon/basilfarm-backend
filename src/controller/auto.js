@@ -15,7 +15,9 @@ const currentAutoManagementStatus = async (req, res) => {
     res.json(row);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res
+      .status(500)
+      .json({ message: '데이터베이스에서 정보를 가져오는 것을 실패했습니다.' });
   }
 };
 
@@ -31,7 +33,7 @@ const saveAutoStatus = async (req, res, next) => {
       target_temp,
       target_moisture,
       target_light,
-      created_at: new Date(),
+      created_at: Date.now(),
     });
     next();
   } catch (err) {
@@ -58,7 +60,12 @@ const autoManagement = async (req, res) => {
 };
 
 // 자동 제어 함수
-async function startAutoManagement(device_id, target_temp, target_moisture, target_light) {
+async function startAutoManagement(
+  device_id,
+  target_temp,
+  target_moisture,
+  target_light
+) {
   mqttClient.connect();
 
   let peltier;
@@ -69,36 +76,39 @@ async function startAutoManagement(device_id, target_temp, target_moisture, targ
   async function autoControl() {
     console.log('자동 제어 실행');
     try {
-      const [row] = await db.pool.query('SELECT temp, moisture, light FROM sensor_history WHERE device_id = ? ORDER BY created_at DESC LIMIT 1', [device_id]);
+      const [row] = await db.pool.query(
+        'SELECT temp, moisture, light FROM sensor_history WHERE device_id = ? ORDER BY created_at DESC LIMIT 1',
+        [device_id]
+      );
 
       const { temp, moisture, light } = row[0];
       const tempInt = parseInt(temp);
 
       // 엑추에이터 자동 제어
       if (tempInt < target_temp) {
-        peltier = "1";
+        peltier = '1';
       } else if (tempInt > target_temp) {
-        peltier = "2";
+        peltier = '2';
       } else {
-        peltier = "0";
+        peltier = '0';
       }
 
       if (tempInt <= target_temp || moisture <= target_moisture) {
-        fan = "1";
+        fan = '1';
       } else {
-        fan = "0";
+        fan = '0';
       }
 
       if (moisture < target_moisture) {
-        pump = "1";
+        pump = '1';
       } else if (moisture > target_moisture) {
-        pump = "0";
+        pump = '0';
       } else {
-        pump = "0";
+        pump = '0';
       }
 
       if (light < target_light) {
-        led = "1";
+        led = '1';
       }
 
       // 서버 > 디바이스 명령 전송
@@ -107,10 +117,14 @@ async function startAutoManagement(device_id, target_temp, target_moisture, targ
         peltier,
         fan,
         pump,
-        led
+        led,
       });
-      console.log(`Device ${device_id} 자동 제어 중: ${target_temp}°C, ${target_moisture}%, ${target_light}lux`);
-      console.log(`peltier: ${peltier}, fan: ${fan}, pump: ${pump}, led: ${led}`);
+      console.log(
+        `Device ${device_id} 자동 제어 중: ${target_temp}°C, ${target_moisture}%, ${target_light}lux`
+      );
+      console.log(
+        `peltier: ${peltier}, fan: ${fan}, pump: ${pump}, led: ${led}`
+      );
     } catch (err) {
       console.error(err);
     }
@@ -131,11 +145,11 @@ function stopAutoManagement(device_id) {
     clearInterval(foundInterval);
     setIntervalMap.delete(device_id);
     mqttClient.sendCommand(`cmd/${device_id}/auto`, {
-    device_id,
-    peltier: "0",
-    fan: "0",
-    pump: "0",
-    led: "0"
+      device_id,
+      peltier: '0',
+      fan: '0',
+      pump: '0',
+      led: '0',
     });
     console.log(`Device ${device_id} 자동 제어 종료`);
   }

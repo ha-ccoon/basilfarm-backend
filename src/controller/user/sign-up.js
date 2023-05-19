@@ -35,6 +35,7 @@ const signUp = async (req, res, next) => {
       phone,
       fullname,
       device_id,
+      created_at: Date.now(),
     });
 
     res.status(200).json({ message: '유저 정보가 생성되었습니다.' });
