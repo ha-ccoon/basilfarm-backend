@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-export const verifyAccessToken = (req, res, next) => {
+export const verifySignInStatus = (req, res, next) => {
   const accessToken = req.headers['authorization']?.split(' ')[1];
 
   if (!accessToken) {

@@ -6,7 +6,7 @@ const setIntervalMap = new Map();
 
 //api/auto/:device_id/status
 // 자동 제어 상태 가져오기
-const currentAutoManagementStatus = async (req, res) => {
+const updateRealTimeAutoStatus = async (req, res) => {
   const { device_id } = req.params;
   const query = `SELECT * FROM auto_status WHERE device_id = ?`;
 
@@ -26,6 +26,7 @@ const currentAutoManagementStatus = async (req, res) => {
 const saveAutoStatus = async (req, res, next) => {
   const { device_id } = req.params;
   const { status, target_temp, target_moisture, target_light } = req.body;
+
   try {
     await db.insertAutoStatus({
       device_id: device_id,
@@ -44,7 +45,7 @@ const saveAutoStatus = async (req, res, next) => {
 
 //api/auto/:device_id
 // 자동화 ON/OFF 구분 후 시행
-const autoManagement = async (req, res) => {
+const autoCommand = async (req, res) => {
   const { device_id } = req.params;
   const { status, target_temp, target_moisture, target_light } = req.body;
 
@@ -155,4 +156,4 @@ function stopAutoManagement(device_id) {
   }
 }
 
-export { autoManagement, saveAutoStatus, currentAutoManagementStatus };
+export { autoCommand, saveAutoStatus, updateRealTimeAutoStatus };

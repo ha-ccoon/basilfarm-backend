@@ -1,5 +1,5 @@
 import express from 'express';
-import getDeviceInfo from '../controller/device.js';
+import getDeviceInfo from '../controller/devices.js';
 
 const router = express.Router();
 

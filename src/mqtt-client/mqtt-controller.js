@@ -3,7 +3,7 @@ import { getDBConnection } from '../app.js';
 
 const initialPubTopic = 'initialResponse';
 
-const setInitialSubTopic = async (topic, message) => {
+export const setInitialSubTopic = async (topic, message) => {
   try {
     const db = getDBConnection();
     mqttClient.connect();
@@ -35,8 +35,12 @@ const setInitialSubTopic = async (topic, message) => {
   }
 };
 
+<<<<<<< Updated upstream
 const messageCallback = async (topic, message) => {
   const db = getDBConnection();
+=======
+export const messageCallback = async (topic, message) => {
+>>>>>>> Stashed changes
   console.log(topic, message.toString());
   // 토픽 인식하기
   const topicType = topic.split('/')[0];
@@ -77,5 +81,3 @@ const messageCallback = async (topic, message) => {
     console.log(err);
   }
 };
-
-export { messageCallback, setInitialSubTopic };

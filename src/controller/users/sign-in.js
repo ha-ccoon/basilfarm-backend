@@ -1,11 +1,11 @@
 import jwt from 'jsonwebtoken';
 import { findId } from './user.js';
-import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 const signIn = async (req, res, next) => {
-  const { id, password } = req.body;
+  const { id } = req.body;
 
   // 아이디 확인
   const existedId = await findId(id);
@@ -19,7 +19,6 @@ const signIn = async (req, res, next) => {
   }
 
   try {
-    console.log('유저 아이디: ', confirmId.id);
     const accessToken = jwt.sign(
       {
         id: confirmId.id,
