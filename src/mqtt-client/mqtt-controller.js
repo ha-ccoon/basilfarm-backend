@@ -35,17 +35,12 @@ export const setInitialSubTopic = async (topic, message) => {
   }
 };
 
-<<<<<<< Updated upstream
 const messageCallback = async (topic, message) => {
   const db = getDBConnection();
-=======
-export const messageCallback = async (topic, message) => {
->>>>>>> Stashed changes
-  console.log(topic, message.toString());
+  
   // 토픽 인식하기
   const topicType = topic.split('/')[0];
   const messageJson = JSON.parse(message);
-  console.log('topic:', topicType);
 
   try {
     switch (topicType) {

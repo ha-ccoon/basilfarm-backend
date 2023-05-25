@@ -14,11 +14,9 @@ const updateRealTimeAutoStatus = async (req, res) => {
     const [row] = await db.pool.query(query, [device_id]);
     res.json(row);
   } catch (err) {
+    res.status(500).json({ message: 'Database Error' });
     console.error(err);
-    res
-      .status(500)
-      .json({ message: '데이터베이스에서 정보를 가져오는 것을 실패했습니다.' });
-  }
+
 };
 
 //api/auto/:device_id
@@ -38,8 +36,8 @@ const saveAutoStatus = async (req, res, next) => {
     });
     next();
   } catch (err) {
+    res.status(500).json({ message: 'Database Error' });
     console.error(err);
-    res.status(500).send('자동화 명령 저장에 실패하였습니다.');
   }
 };
 
@@ -51,12 +49,12 @@ const autoCommand = async (req, res) => {
 
   if (status === 1) {
     startAutoManagement(device_id, target_temp, target_moisture, target_light);
-    res.status(200).send('자동화 명령이 디바이스로 전송되었습니다.');
+    res.status(200).send('Suceed to send auto command');
   } else if (status === 0) {
     stopAutoManagement(device_id);
-    res.status(200).send('자동화 명령이 해제되었습니다.');
+    res.status(200).send('Auto Management System Off');
   } else {
-    res.status(400).send('잘못된 요청입니다.');
+    res.status(400).send('Bad Request');
   }
 };
 
@@ -75,7 +73,6 @@ async function startAutoManagement(
   let led;
 
   async function autoControl() {
-    console.log('자동 제어 실행');
     try {
       const [row] = await db.pool.query(
         'SELECT temp, moisture, light FROM sensor_history WHERE device_id = ? ORDER BY created_at DESC LIMIT 1',
@@ -127,7 +124,7 @@ async function startAutoManagement(
         `peltier: ${peltier}, fan: ${fan}, pump: ${pump}, led: ${led}`
       );
     } catch (err) {
-      console.error(err);
+      console.log(err);
     }
   }
 
@@ -152,7 +149,7 @@ function stopAutoManagement(device_id) {
       pump: '0',
       led: '0',
     });
-    console.log(`Device ${device_id} 자동 제어 종료`);
+    console.log(`Device ${device_id} Auto Management System Off`);
   }
 }
 

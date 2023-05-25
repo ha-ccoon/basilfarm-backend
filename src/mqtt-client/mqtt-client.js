@@ -13,7 +13,7 @@ class MqttClient {
       if (!err) {
         console.log('## MQTT is connected');
       } else {
-        // console.log(`Mqtt Connection Error: `, err);
+        console.log(`Mqtt Connection Error: `, err);
       }
     });
   }
@@ -28,8 +28,6 @@ class MqttClient {
     });
   }
 
-<<<<<<< Updated upstream
-=======
   // 디바이스 => 데이터베이스
   receiveMessage(callback, err) {
     if (!err) {
@@ -39,7 +37,6 @@ class MqttClient {
     }
   }
 
->>>>>>> Stashed changes
   // 서버 => 디바이스
   async sendCommand(topic, message, err) {
     if (!err) {
@@ -50,20 +47,7 @@ class MqttClient {
     }
   }
 
-<<<<<<< Updated upstream
-  // 디바이스 => 데이터베이스
-  receiveMessage(callback, err) {
-    if (!err) {
-      this._client.on('message', callback);
-    } else {
-      console.log('Receiving Message Error: ', err);
-    }
-  }
-
-  // error handling
-=======
   // MQTT 에러 핸들러
->>>>>>> Stashed changes
   error() {
     this._client.on('error', (err) => {
       console.log('MQTT General Error: ', err);

@@ -1,17 +1,12 @@
 import dotenv from 'dotenv';
-<<<<<<< Updated upstream
 import mysql from 'mysql2/promise';
-// import { convertToInsertQuery } from './controller/dummy.js';
-=======
 
->>>>>>> Stashed changes
 dotenv.config();
 
 export default class DB {
   pool = undefined;
 
   constructor() {
-<<<<<<< Updated upstream
     if (this.pool === undefined) {
       this.pool = mysql.createPool({
         host: process.env.MYSQL_HOST,
@@ -23,18 +18,6 @@ export default class DB {
         queueLimit: 0,
       });
     }
-=======
-    this.pool = mysql.createPool({
-      host: process.env.MYSQL_HOST,
-      user: process.env.MYSQL_USER,
-      password: process.env.MYSQL_PASSWORD,
-      database: process.env.MYSQL_DATABASE,
-      port: process.env.MYSQL_PORT,
-      waitForConnections: true,
-      multipleStatements: true,
-      queueLimit: 0,
-    });
->>>>>>> Stashed changes
   }
 
   // 누적 센서 데이터 삽입
@@ -104,20 +87,6 @@ export default class DB {
     peltier,
     created_at,
   }) {
-<<<<<<< Updated upstream
-    const sql = `INSERT INTO actuator_config (idx, device_id, pump, led, fan, peltier, created_at) VALUES (?,?,?,?,?,?,?)`;
-    const row = await this.pool.query(sql, [
-      idx,
-      device_id,
-      pump,
-      led,
-      fan,
-      peltier,
-      created_at,
-    ]);
-    console.log(row);
-    return { row };
-=======
     try {
       const sql = `INSERT INTO actuator_config 
       idx, device_id, pump, led, fan, peltier, created_at) VALUES (?,?,?,?,?,?,?)`;
@@ -126,9 +95,8 @@ export default class DB {
       return rows;
     } catch (err) {
       res.status(500).json({ message: 'Database Error' });
-      console.log(err.message);
+      console.log(err);
     }
->>>>>>> Stashed changes
   }
 
   // 유저 데이터 저장
@@ -159,7 +127,7 @@ export default class DB {
       return rows;
     } catch (err) {
       res.status(500).json({ message: 'Database Error' });
-      console.log(err.message);
+      console.log(err);
     }
   }
 
@@ -170,7 +138,7 @@ export default class DB {
       return rows;
     } catch (err) {
       res.status(500).json({ message: 'Database Error' });
-      console.log(err.message);
+      console.log(err);
     }
   }
 
@@ -183,7 +151,7 @@ export default class DB {
       return rows;
     } catch (err) {
       res.status(500).json({ message: 'Database Error' });
-      console.log(err.message);
+      console.log(err);
     }
   }
 }
