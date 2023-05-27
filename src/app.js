@@ -16,13 +16,14 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://34.64.110.118"],
+    origin: ['http://localhost:3000', 'http://34.64.110.118'],
     credentials: true,
   })
 );
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/api', apiRouter);
+app.set('view engine', 'ejs');
 
 // 포트 연결
 const port = parseInt(process.env.PORT ?? '8080');
@@ -58,9 +59,9 @@ const getDBConnection = (err) => {
 };
 
 // 전역 에러 핸들러
-app.use((req, res, next, err) => {
-  res.status(500).json({ message: 'Internal Server Error' });
-  console.log(err);
-});
+// app.use((req, res, next, err) => {
+//   res.status(500).json({ message: 'Internal Server Error' });
+//   console.log(err);
+// });
 
 export { getDBConnection, mqttClient };
