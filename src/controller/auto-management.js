@@ -16,7 +16,7 @@ const updateRealTimeAutoStatus = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: 'Database Error' });
     console.error(err);
-
+  }
 };
 
 //api/auto/:device_id

@@ -35,9 +35,9 @@ export const setInitialSubTopic = async (topic, message) => {
   }
 };
 
-const messageCallback = async (topic, message) => {
+export const messageCallback = async (topic, message) => {
   const db = getDBConnection();
-  
+
   // 토픽 인식하기
   const topicType = topic.split('/')[0];
   const messageJson = JSON.parse(message);
