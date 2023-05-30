@@ -14,6 +14,19 @@ export const findId = async (id) => {
   }
 };
 
+export const findPassword = async (id) => {
+  try {
+    const [row] = await db.pool.query(
+      'SELECT password FROM user WHERE id = ?',
+      [id]
+    );
+    return row;
+  } catch (err) {
+    console.log(err);
+    // res.status(500).json({ message: 'Database Error' });
+  }
+};
+
 // 유저 정보 검색
 export const getUserInfo = async (req, res) => {
   try {

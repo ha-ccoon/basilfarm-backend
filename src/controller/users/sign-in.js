@@ -1,21 +1,38 @@
 import jwt from 'jsonwebtoken';
-import { findId } from './user.js';
+import { findId, findPassword } from './user.js';
+import bcrypt, { hash } from 'bcrypt';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
 const signIn = async (req, res, next) => {
-  const { id } = req.body;
+  const { id, password } = req.body;
 
   // 아이디 확인
   const existedId = await findId(id);
+  console.log('데이터베이스 아이디', existedId);
   const confirmId = existedId.find((data) => {
     return id === data.id;
   });
 
   if (!confirmId) {
-    res.status(403).json({ message: '존재 하지 않는 아이디입니다.' });
+    res.status(403).json({ message: 'Id is not existed' });
     next();
+  }
+
+  // 비밀번호 확인
+  const existedPassword = await findPassword(id);
+  const takeoutPassword = existedPassword.find((data) => {
+    return data.password;
+  });
+
+  const comparePassword = bcrypt.compareSync(
+    password,
+    takeoutPassword.password
+  );
+
+  if (comparePassword === false) {
+    res.status(403).json({ message: 'Password is not matched' });
   }
 
   try {
