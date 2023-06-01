@@ -55,12 +55,12 @@ const getDBConnection = (err) => {
   if (err) {
     res.status(500).json({ message: '데이터베이스 연결에 문제가 있습니다.' });
   }
-  return db;
+  return DB;
 };
 
 // 전역 에러 핸들러
 // app.use((req, res, next, err) => {
-//   res.status(500).json({ message: 'Internal Server Error' });
+//   res.status(500).json({ message: 'Global Internal Server Error' });
 //   console.log(err);
 // });
 

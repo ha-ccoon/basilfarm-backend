@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { findId, findPassword } from './user.js';
+import { findById, findByPassword } from './user.js';
 import bcrypt, { hash } from 'bcrypt';
 import dotenv from 'dotenv';
 
@@ -9,7 +9,7 @@ const signIn = async (req, res, next) => {
   const { id, password } = req.body;
 
   // 아이디 확인
-  const existedId = await findId(id);
+  const existedId = await findById(id);
   console.log('데이터베이스 아이디', existedId);
   const confirmId = existedId.find((data) => {
     return id === data.id;
@@ -21,7 +21,7 @@ const signIn = async (req, res, next) => {
   }
 
   // 비밀번호 확인
-  const existedPassword = await findPassword(id);
+  const existedPassword = await findByPassword(id);
   const takeoutPassword = existedPassword.find((data) => {
     return data.password;
   });
@@ -47,9 +47,22 @@ const signIn = async (req, res, next) => {
       }
     );
 
-    res.status(200).json({ message: '로그인에 성공하였습니다.', accessToken });
+    const refreshToken = jwt.sign(
+      {
+        id: confirmId.id,
+      },
+      process.env.REFRESH_TOKEN_SECRET,
+      {
+        expiresIn: process.env.REFRESH_EXPIRES_IN,
+        issuer: 'basilfarm',
+      }
+    );
+
+    res
+      .status(200)
+      .json({ message: 'Sign In Succeed', accessToken, refreshToken });
   } catch (err) {
-    res.status(401).json({ message: '로그인에 실패하였습니다.' });
+    res.status(401).json({ message: 'Sign In Failed' });
     next();
   }
 };

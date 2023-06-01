@@ -1,4 +1,4 @@
-import { findId } from './user.js';
+import { findById } from './user.js';
 import bcrypt from 'bcrypt';
 import { getDBConnection } from '../../app.js';
 
@@ -11,9 +11,9 @@ const signUp = async (req, res, next) => {
     const db = getDBConnection();
 
     // 아이디 중복 검사
-    const existedId = await findId(id);
+    const existedId = await findById(id);
     const confirmId = existedId.filter((data) => data.id === id);
-    
+
     if (!confirmId) {
       res.status(200).json({ message: '사용 가능한 아이디 입니다.' });
     }

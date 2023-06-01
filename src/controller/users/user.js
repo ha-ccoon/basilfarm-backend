@@ -3,7 +3,7 @@ import DB from '../../database.js';
 const db = new DB();
 
 // 아이디 검색
-export const findId = async (id) => {
+export const findById = async (id) => {
   try {
     const [row] = await db.pool.query('SELECT * FROM user WHERE id = ?', [id]);
     console.log('아이디 검색: ', row);
@@ -14,7 +14,7 @@ export const findId = async (id) => {
   }
 };
 
-export const findPassword = async (id) => {
+export const findByPassword = async (id) => {
   try {
     const [row] = await db.pool.query(
       'SELECT password FROM user WHERE id = ?',
