@@ -1,11 +1,11 @@
-import { findById } from './user.js';
+import { findById } from './users.js';
 import bcrypt from 'bcrypt';
 import { getDBConnection } from '../../app.js';
 
 const saltRound = 10;
 const condition = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/;
 
-const signUp = async (req, res, next) => {
+const signUpUser = async (req, res, next) => {
   try {
     const { id, password, email, phone, fullname, device_id } = req.body;
     const db = getDBConnection();
@@ -46,4 +46,4 @@ const signUp = async (req, res, next) => {
   }
 };
 
-export default signUp;
+export default signUpUser;

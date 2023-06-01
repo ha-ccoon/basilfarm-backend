@@ -52,10 +52,11 @@ mqttClient.receiveMessage(messageCallback);
 
 // MySQL 연결
 const getDBConnection = (err) => {
+  const db = new DB();
   if (err) {
     res.status(500).json({ message: '데이터베이스 연결에 문제가 있습니다.' });
   }
-  return DB;
+  return db;
 };
 
 // 전역 에러 핸들러

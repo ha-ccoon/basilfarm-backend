@@ -1,11 +1,11 @@
 import jwt from 'jsonwebtoken';
-import { findById, findByPassword } from './user.js';
-import bcrypt, { hash } from 'bcrypt';
+import { findById, findByPassword } from './users.js';
+import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const signIn = async (req, res, next) => {
+const signInUser = async (req, res, next) => {
   const { id, password } = req.body;
 
   // 아이디 확인
@@ -67,4 +67,4 @@ const signIn = async (req, res, next) => {
   }
 };
 
-export default signIn;
+export default signInUser;
