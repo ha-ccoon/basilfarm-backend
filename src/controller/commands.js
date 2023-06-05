@@ -1,6 +1,6 @@
 import { mqttClient } from '../app.js';
 
-export const commandCallback = async (req, res, next) => {
+export const manualCommand = async (req, res, next) => {
   const { command, actuator } = req.body;
   const { device_id } = req.params;
   mqttClient.connect();
@@ -27,4 +27,4 @@ export const commandCallback = async (req, res, next) => {
   }
 };
 
-export default commandCallback;
+export default manualCommand;

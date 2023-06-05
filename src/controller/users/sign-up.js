@@ -5,7 +5,7 @@ import { getDBConnection } from '../../app.js';
 const saltRound = 10;
 const condition = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/;
 
-const signUpUser = async (req, res, next) => {
+const signUp = async (req, res, next) => {
   try {
     const { id, password, email, phone, fullname, device_id } = req.body;
     const db = getDBConnection();
@@ -13,6 +13,7 @@ const signUpUser = async (req, res, next) => {
     // 아이디 중복 검사
     const existedId = await findId(id);
     const confirmId = existedId.filter((data) => data.id === id);
+    
     if (!confirmId) {
       res.status(200).json({ message: '사용 가능한 아이디 입니다.' });
     }
@@ -35,6 +36,7 @@ const signUpUser = async (req, res, next) => {
       phone,
       fullname,
       device_id,
+      created_at: Date.now(),
     });
 
     res.status(200).json({ message: '유저 정보가 생성되었습니다.' });
@@ -44,4 +46,4 @@ const signUpUser = async (req, res, next) => {
   }
 };
 
-export default signUpUser;
+export default signUp;
