@@ -2,7 +2,7 @@ import express from 'express';
 import signIn from '../controller/users/sign-in.js';
 import signUp from '../controller/users/sign-up.js';
 import { getUserInfo } from '../controller/users/user.js';
-import { verifySignInStatus } from '../middleware/verify-token.js';
+import { verifySignInStatus } from '../middleware/verify-authentication.js';
 
 const router = express.Router();
 
