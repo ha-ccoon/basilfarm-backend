@@ -16,7 +16,7 @@ const signInUser = async (req, res, next) => {
   });
 
   if (!confirmId) {
-    res.status(403).json({ message: 'Id is not existed' });
+    res.status(403).json({ message: 'Incorrect Id' });
     next();
   }
 
@@ -32,7 +32,7 @@ const signInUser = async (req, res, next) => {
   );
 
   if (comparePassword === false) {
-    res.status(403).json({ message: 'Password is not matched' });
+    res.status(403).json({ message: 'Incorrect Password' });
   }
 
   try {

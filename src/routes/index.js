@@ -16,8 +16,4 @@ router.use('/autos', autoRouter);
 router.use('/commands', commandRouter);
 router.use('/devices', deviceRouter);
 
-router.get('/hello', (req, res) => {
-  res.render('hello');
-});
-
 export default router;

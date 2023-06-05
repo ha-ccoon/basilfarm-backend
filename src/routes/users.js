@@ -12,10 +12,8 @@ router.post('/sign_up', signUpUser);
 // 로그인
 router.post('/sign_in', signInUser);
 
-// 유저 정보 전송
-router.get('/sign_in/info', verifySignInStatus, getUserInfo);
-
-// 유저 정보 수정
-router.get('/sign_in/info/status', verifySignInStatus);
+// 유저 정보
+router.route('/sign_in/info').get(verifySignInStatus, getUserInfo);
+// .put(verifySignInStatus, updateUser);
 
 export default router;

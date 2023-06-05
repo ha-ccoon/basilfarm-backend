@@ -49,12 +49,12 @@ const autoCommand = async (req, res) => {
 
   if (status === 1) {
     startAutoManagement(device_id, target_temp, target_moisture, target_light);
-    res.status(200).send('Suceed to send auto command');
+    res.status(200).json({ message: 'Succeed to send auto command' });
   } else if (status === 0) {
     stopAutoManagement(device_id);
-    res.status(200).send('Auto Management System Off');
+    res.status(200).json({ message: 'Auto Management System Off' });
   } else {
-    res.status(400).send('Bad Request');
+    res.status(400);
   }
 };
 

@@ -37,7 +37,7 @@ export const isAccessTokenExpired = (
         isRefreshTokenExpired(accessToken, refreshToken, req, res);
         res.status(401).json({ message: 'AccessToken Expired' });
       } else if (err.name === 'JsonWebTokenError') {
-        res.status(401).json({ message: err.message });
+        res.status(401).json({ message: err });
       }
     });
   } catch (err) {
@@ -62,7 +62,7 @@ export const isRefreshTokenExpired = (accessToken, refreshToken, req, res) => {
         } else if (err.name === 'TokenExpiredError') {
           res.status(400).json({ message: 'RefreshToken Expired' });
         } else if (err.name === 'JsonWebTokenError') {
-          res.status(401).json({ message: err.message });
+          res.status(401).json({ message: err });
         }
       }
     );
