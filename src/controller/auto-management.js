@@ -2,7 +2,7 @@ import DB from '../database.js';
 import { mqttClient } from '../app.js';
 
 const db = new DB();
-const setIntervalMap = new Map();
+const intervalMap = new Map();
 
 //api/auto/:device_id/status
 // 자동 제어 상태 가져오기
@@ -49,12 +49,12 @@ const autoCommand = async (req, res) => {
 
   if (status === 1) {
     startAutoManagement(device_id, target_temp, target_moisture, target_light);
-    res.status(200).send('Suceed to send auto command');
+    res.status(200).json({ message: 'Succeed to send auto command' });
   } else if (status === 0) {
     stopAutoManagement(device_id);
-    res.status(200).send('Auto Management System Off');
+    res.status(200).json({ message: 'Auto Management System Off' });
   } else {
-    res.status(400).send('Bad Request');
+    res.status(400);
   }
 };
 
@@ -133,15 +133,15 @@ async function startAutoManagement(
 
   // 1분 주기 실행
   const intervalId = setInterval(autoControl, 60 * 1000);
-  setIntervalMap.set(device_id, intervalId);
+  intervalMap.set(device_id, intervalId);
 }
 
 // 자동 제어 함수 종료 함수
 function stopAutoManagement(device_id) {
-  const foundInterval = setIntervalMap.get(device_id);
+  const foundInterval = intervalMap.get(device_id);
   if (foundInterval) {
     clearInterval(foundInterval);
-    setIntervalMap.delete(device_id);
+    intervalMap.delete(device_id);
     mqttClient.sendCommand(`cmd/${device_id}/auto`, {
       device_id,
       peltier: '0',
