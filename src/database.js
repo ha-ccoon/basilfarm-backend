@@ -164,7 +164,7 @@ export default class DB {
     device_id,
     created_at,
   }) {
-    const sql = `INSERT INTO user
+    const sql = `INSERT INTO users
   (id, password, phone, email, fullname, picture, device_id, created_at) VALUES (?,?,?,?,?,?,?,?)`;
     const row = await this.pool.query(sql, [
       id,
@@ -182,7 +182,7 @@ export default class DB {
 
   async deviceCheck(device_id) {
     try {
-      const sql = 'SELECT * FROM device WHERE device_id = ?';
+      const sql = 'SELECT * FROM devices WHERE device_id = ?';
       const row = await this.pool.query(sql, [device_id]);
       return row;
     } catch (err) {
@@ -193,7 +193,7 @@ export default class DB {
 
   async insertDevice({ device_id, device_macAddress, device_type, picture }) {
     const sql =
-      'INSERT INTO device(device_id,device_macAddress,device_type, picture) VALUES (?,?,?,?)';
+      'INSERT INTO devices(device_id,device_macAddress,device_type, picture) VALUES (?,?,?,?)';
     const row = await this.pool.query(sql, [
       device_id,
       device_macAddress,
