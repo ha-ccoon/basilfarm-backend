@@ -164,32 +164,27 @@ export default class DB {
     device_id,
     created_at,
   }) {
-    try {
-      const sql = `INSERT INTO user
-      (id, password, phone, email, fullname, picture, device_id, created_at) VALUES (?,?,?,?,?,?,?,?)`;
-      const fields = [
-        id,
-        password,
-        phone,
-        email,
-        fullname,
-        picture,
-        device_id,
-        created_at,
-      ];
-      const rows = await this.pool.query(sql, fields);
-      return rows;
-    } catch (err) {
-      res.status(500).json({ message: 'Database Error' });
-      console.log(err);
-    }
+    const sql = `INSERT INTO user
+  (id, password, phone, email, fullname, picture, device_id, created_at) VALUES (?,?,?,?,?,?,?,?)`;
+    const row = await this.pool.query(sql, [
+      id,
+      password,
+      phone,
+      email,
+      fullname,
+      picture,
+      device_id,
+      created_at,
+    ]);
+
+    return { row };
   }
 
   async deviceCheck(device_id) {
     try {
       const sql = 'SELECT * FROM device WHERE device_id = ?';
-      const rows = await this.pool.query(sql, [device_id]);
-      return rows;
+      const row = await this.pool.query(sql, [device_id]);
+      return row;
     } catch (err) {
       res.status(500).json({ message: 'Database Error' });
       console.log(err);
@@ -197,15 +192,14 @@ export default class DB {
   }
 
   async insertDevice({ device_id, device_macAddress, device_type, picture }) {
-    try {
-      const sql =
-        'INSERT INTO device(device_id,device_macAddress,device_type, picture) VALUES (?,?,?,?)';
-      const fields = [device_id, device_macAddress, device_type, picture];
-      const rows = await this.pool.query(sql, fields);
-      return rows;
-    } catch (err) {
-      res.status(500).json({ message: 'Database Error' });
-      console.log(err);
-    }
+    const sql =
+      'INSERT INTO device(device_id,device_macAddress,device_type, picture) VALUES (?,?,?,?)';
+    const row = await this.pool.query(sql, [
+      device_id,
+      device_macAddress,
+      device_type,
+      picture,
+    ]);
+    return { row };
   }
 }
