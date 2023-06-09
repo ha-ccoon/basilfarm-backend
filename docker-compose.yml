@@ -1,0 +1,23 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: ./
+      dockerfile: dockerfile
+    ports:
+      - 5000:5000
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: dockerfile
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/nginx.conf
+      - ./next-app/.next:/usr/share/nginx/html
+      - /etc/letsencrypt/live/bns.min.wo.tc/fullchain.pem:/etc/nginx/fullchain.pem
+      - /etc/letsencrypt/live/bns.min.wo.tc/privkey.pem:/etc/nginx/privkey.pem
+    depends_on:
+      - backend

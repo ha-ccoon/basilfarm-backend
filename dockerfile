@@ -1,7 +1,8 @@
 FROM node:alpine
 
+# Copy the reverse proxy configuration to the container
 WORKDIR /source
-ADD . /source
+COPY . /source
 
 RUN npm install
 
