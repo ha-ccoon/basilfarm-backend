@@ -4,8 +4,8 @@ FROM nginx:latest
 COPY ./default.conf /etc/nginx/conf.d/default.conf
 
 # SSL 인증서 및 개인 키 복사
-COPY ./fullchain.pem /etc/nginx/pem/
-COPY ./privkey.pem /etc/nginx/pem/
+COPY ./fullchain.pem /etc/nginx/pem/fullchain.pem
+COPY ./privkey.pem /etc/nginx/pem/privkey.pem
 
 # 기타 정적 파일이 있다면 복사
 # COPY /home/ubuntu/basilfarm-frontend/.next /usr/share/nginx/html/
