@@ -1,4 +1,4 @@
-import { findById } from './users.js';
+import { findById } from './users.js';
 import bcrypt from 'bcrypt';
 import { getDBConnection } from '../../app.js';
 

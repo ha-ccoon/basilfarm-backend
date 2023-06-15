@@ -40,13 +40,3 @@ export const getUserInfo = async (req, res) => {
     res.status(500).json({ message: 'Database Error' });
   }
 };
-
-// 유저 정보 수정
-// export const updateUser = async (req, res) => {
-//   const { id, password, phone, email, device_id } = req.body;
-//   try {
-//     const [row] = await db.pool.query(
-//       'UPDATE id, password, phone, email, device_id SET id = ?, password = ?, phone = ?, email = ?, '
-//     )
-//   } catch (err) {}
-// };

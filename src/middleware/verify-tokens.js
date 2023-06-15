@@ -3,8 +3,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const getTokens = (req, res) => {
-  const accessToken = req.headers['authorization']?.split(' ')[1];
-  const refreshToken = req.body.refreshToken;
+  // const accessToken = req.headers['authorization']?.split(' ')[1];
+  const accessToken = req.cookies.accessToken;
+  const refreshToken = req.cookies.refreshToken;
 
   if (!accessToken) {
     res.status(401).json({ message: 'No AccessToken Provided' });
@@ -13,9 +14,6 @@ export const getTokens = (req, res) => {
   if (!refreshToken) {
     res.status(401).json({ message: 'No RefreshToken Provided' });
   }
-
-  // console.log('accessToken: ', accessToken);
-  // console.log('refreshToken: ', refreshToken);
 
   return { accessToken, refreshToken };
 };
@@ -41,14 +39,11 @@ export const isAccessTokenExpired = (
       }
     });
   } catch (err) {
-    // console.log(err);
-    // next(err);
+    next(err);
   }
 };
 
 export const isRefreshTokenExpired = (accessToken, refreshToken, req, res) => {
-  console.log('refresh func', accessToken);
-
   if (accessToken.id !== refreshToken.id) {
     res.status(401).json({ message: 'Unauthorized RefreshToken' });
   }
@@ -67,7 +62,7 @@ export const isRefreshTokenExpired = (accessToken, refreshToken, req, res) => {
       }
     );
   } catch (err) {
-    // next(err);
+    next(err);
   }
 };
 
