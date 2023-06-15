@@ -34,6 +34,18 @@
 ## Infra Architecture
 ![인프라](https://github.com/ha-ccoon/basilfarm-backend/assets/86749331/a40ad2bb-7d86-4aa0-8be7-08e17a2e193e)
 
+## ERD
+<img width="1375" alt="최종 ERD" src="https://github.com/ha-ccoon/basilfarm-backend/assets/86749331/5acb7766-554b-4720-8784-a668cd816ad0">
+
+## API 명세
+https://www.notion.so/minhasohn/API-90938fb0d9ba4123a11b7b82a9ba8eb2?pvs=4
+
+## 디바이스 회로도 및 센서 목록
+### 디바이스 회로도
+![회로 구성도](https://github.com/ha-ccoon/basilfarm-backend/assets/86749331/202146bd-dd4f-4102-97a4-07d4b11eb7b0)
+### 센서 목록
+<img src="https://github.com/ha-ccoon/basilfarm-backend/assets/86749331/1179ecad-23b0-444b-a111-e1ba8fdb5c04" width="300" height="400">
+
 ## Team: 바질농부단 (BNS)
 ### Frontend
 #### 김정연
