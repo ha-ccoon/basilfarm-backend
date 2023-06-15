@@ -58,6 +58,8 @@ const signInUser = async (req, res, next) => {
       }
     );
 
+    res.cookie()
+
     res
       .status(200)
       .json({ message: 'Sign In Succeed', accessToken, refreshToken });

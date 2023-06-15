@@ -13,7 +13,6 @@ router.post('/sign_up', signUpUser);
 router.post('/sign_in', signInUser);
 
 // 유저 정보
-router.route('/sign_in/info').get(verifySignInStatus, getUserInfo);
-// .put(verifySignInStatus, updateUser);
+router.get('/sign_in/info', verifySignInStatus, getUserInfo);
 
 export default router;

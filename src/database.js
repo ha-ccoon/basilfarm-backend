@@ -19,7 +19,7 @@ export default class DB {
         queueLimit: 0,
       });
     }
-  }
+  }s
 
   // 누적 센서 데이터 삽입
   async insertSensorHistory({
