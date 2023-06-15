@@ -1,7 +1,7 @@
 import express from 'express';
 import signInUser from '../controller/users/sign-in.js';
 import signUpUser from '../controller/users/sign-up.js';
-import { getUserInfo } from '../controller/users/users.js';
+import { getUserInfo } from '../controller/users/users.js';
 import { verifySignInStatus } from '../middleware/verify-authentication.js';
 
 const router = express.Router();

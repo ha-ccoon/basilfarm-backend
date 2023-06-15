@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
-import { findById, findByPassword } from './users.js';
+import { findById, findByPassword } from './users.js';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
+import nodemon from 'nodemon';
 
 dotenv.config();
 
@@ -58,11 +59,19 @@ const signInUser = async (req, res, next) => {
       }
     );
 
-    res.cookie()
+    res.cookie('accessToken', accessToken, {
+      Secure: true,
+      httpOnly: true,
+      sameSite: 'none',
+    });
 
-    res
-      .status(200)
-      .json({ message: 'Sign In Succeed', accessToken, refreshToken });
+    res.cookie('refreshToken', refreshToken, {
+      Secure: true,
+      httpOnly: true,
+      sameSite: 'none',
+    });
+
+    res.status(200).json({ message: 'Sign In Succeed' });
   } catch (err) {
     res.status(401).json({ message: 'Sign In Failed' });
     next();
