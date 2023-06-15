@@ -1,10 +1,11 @@
-FROM node:20-alpine
+FROM node:alpine
 
+# Copy the reverse proxy configuration to the container
 WORKDIR /source
-ADD . /source
+COPY . /source
 
 RUN npm install
 
 EXPOSE 5000
 
-CMD ["npm", "start"]
+CMD npm start
