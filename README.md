@@ -33,3 +33,13 @@
 
 ## Infra Architecture
 ![인프라](https://github.com/ha-ccoon/basilfarm-backend/assets/86749331/a40ad2bb-7d86-4aa0-8be7-08e17a2e193e)
+
+## ERD
+<img width="1375" alt="최종 ERD" src="https://github.com/ha-ccoon/basilfarm-backend/assets/86749331/cd46b94e-1001-4b12-933a-2679df4979cb">
+
+## 디바이스 회로도 및 센서 목록
+### 디바이스 회로도
+![회로 구성도](https://github.com/ha-ccoon/basilfarm-backend/assets/86749331/2091e7d3-e698-4e91-9c0a-7ff1142b052d)
+
+### 센서 목록
+<img src="https://github.com/ha-ccoon/basilfarm-backend/assets/86749331/35386254-d6be-4cee-b361-5e7157c2c06c" width="300" height="400"/>
